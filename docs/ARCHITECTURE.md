@@ -33,15 +33,17 @@ O aplicativo é projetado com arquitetura **offline-first**, permitindo que os u
 
 ### Tecnologias Principais
 
-- **Flutter SDK**: >=3.4.1 <4.0.0
-- **Gerenciamento de Estado**: flutter_bloc (Cubit)
+- **Frontend**: Flutter SDK
+- **Gerenciamento de Estado**: flutter_bloc (Bloc/Cubit)
+- **Banco de Dados Local**: SQLite (sqflite) - offline-first
+- **Backend**: Supabase (Auth, Database e Storage)
 - **Injeção de Dependências**: GetIt
 - **Roteamento**: GoRouter
-- **Banco de Dados Local**: SQLite (sqflite) - offline-first
-- **Backend**: Supabase (Auth, Database, Storage)
 - **HTTP Client**: Supabase Client + dio package (quando necessário)
 - **Funcional Programming**: fpdart (Either pattern)
 - **Code Generation**: freezed, json_serializable
+- **Seleção de Imagens**: image_picker (galeria e câmera)
+- **Gráficos e Visualizações**: Pacotes para gráficos de progresso e estatísticas
 
 ---
 
