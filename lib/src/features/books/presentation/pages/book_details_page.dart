@@ -51,6 +51,7 @@ class BookDetailsPage extends StatelessWidget {
           children: [
             AppCardWidget(
               padding: const EdgeInsets.all(AppSpacing.md),
+              margin: EdgeInsets.zero,
               child: Column(
                 children: [
                   Container(
@@ -71,21 +72,21 @@ class BookDetailsPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.md),
             Text(
               _book['title'] as String,
               style: AppTextStyles.heading1,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: AppSpacing.nano),
             Text(
               _book['author'] as String,
               style: AppTextStyles.orangeText.copyWith(fontSize: 16),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.md),
             AppCardWidget(
               padding: const EdgeInsets.all(AppSpacing.sm),
+              margin: EdgeInsets.zero,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -124,24 +125,21 @@ class BookDetailsPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: AppSpacing.sm),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Minha Avaliação',
-                        style: AppTextStyles.heading3,
-                      ),
-                      const SizedBox(height: AppSpacing.nano),
-                      AppStarRatingWidget(rating: rating as double),
-                    ],
-                  ),
-                ],
-              ),
+            const SizedBox(height: AppSpacing.lg),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    const Text(
+                      'Minha Avaliação',
+                      style: AppTextStyles.heading3,
+                    ),
+                    const SizedBox(height: AppSpacing.nano),
+                    AppStarRatingWidget(rating: rating as double),
+                  ],
+                ),
+              ],
             ),
             const SizedBox(height: AppSpacing.lg),
             const Padding(
@@ -201,6 +199,7 @@ class BookDetailsPage extends StatelessWidget {
   ) {
     return AppCardWidget(
       padding: const EdgeInsets.all(AppSpacing.sm),
+      margin: const EdgeInsets.symmetric(vertical: AppSpacing.nano),
       child: Row(
         children: [
           Container(

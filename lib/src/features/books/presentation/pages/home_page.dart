@@ -128,27 +128,30 @@ class _HomePageState extends State<HomePage> {
           ),
           // Books List
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.nano),
-              itemCount: _filteredBooks.length,
-              itemBuilder: (context, index) {
-                final book = _filteredBooks[index];
-                final progress =
-                    (book['pagesRead'] as int) / (book['totalPages'] as int);
-                return AppBookCardWidget(
-                  title: book['title'] as String,
-                  author: book['author'] as String,
-                  progress: progress,
-                  totalPages: book['totalPages'] as int,
-                  pagesRead: book['pagesRead'] as int,
-                  isCompleted: book['isCompleted'] as bool,
-                  onTap: () {
-                    Navigator.of(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.xxs),
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.nano,
+                ),
+                itemCount: _filteredBooks.length,
+                itemBuilder: (context, index) {
+                  final book = _filteredBooks[index];
+                  final progress =
+                      (book['pagesRead'] as int) / (book['totalPages'] as int);
+                  return AppBookCardWidget(
+                    title: book['title'] as String,
+                    author: book['author'] as String,
+                    progress: progress,
+                    totalPages: book['totalPages'] as int,
+                    pagesRead: book['pagesRead'] as int,
+                    isCompleted: book['isCompleted'] as bool,
+                    onTap: () => Navigator.of(
                       context,
-                    ).pushNamed('/book-details', arguments: book);
-                  },
-                );
-              },
+                    ).pushNamed('/book-details', arguments: book),
+                  );
+                },
+              ),
             ),
           ),
         ],

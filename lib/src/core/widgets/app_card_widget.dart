@@ -29,12 +29,6 @@ class AppCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final card = Container(
-      margin:
-          margin ??
-          const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm,
-            vertical: AppSpacing.xs,
-          ),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
