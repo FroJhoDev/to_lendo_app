@@ -1,0 +1,28 @@
+# Regras do Projeto Tô Lendo
+
+## Mensagens de Commit
+- Sempre usar mensagens de commit em inglês
+- Seguir o padrão Conventional Commits:
+  * feat: Adição de novas funcionalidades
+  * fix: Correções de bugs
+  * style: Alterações de estilo ou formatação sem impacto funcional
+  * refactor: Melhorias na estrutura do código sem alterar funcionalidades
+  * docs: Atualizações ou adições de documentação
+  * perf: Otimizações de desempenho
+  * test: Alterações ou adições em testes automatizados
+  * chore: Alterações em configurações ou dependências
+
+## Código
+- Sempre usar const quando possível
+- Preferir named parameters
+- Seguir as regras do flutter analyze
+- Usar return early sempre que possível para condicionais
+- Evitar o uso de setState quando possível
+- Gerenciar estados através do bloc da feature em questão
+- Preferir arrow functions quando apropriado
+- Usar tear off quando possível (passar função como referência sem chamá-la)
+
+## Estilo
+- Usar AppColors para todas as cores
+- Usar AppSpacing para espaçamentos
+- Usar AppTextStyles para textos
