@@ -21,6 +21,10 @@
 - Gerenciar estados através do bloc da feature em questão
 - Preferir arrow functions quando apropriado
 - Usar tear off quando possível (passar função como referência sem chamá-la)
+- Nomes de parâmetros de objetos sempre em inglês
+
+## Documentação
+- Comentários de documentação sempre em inglês
 
 ## Estilo
 - Usar AppColors para todas as cores
