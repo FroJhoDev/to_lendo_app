@@ -71,51 +71,61 @@ class ProfilePage extends StatelessWidget {
                       Row(
                         children: [
                           Expanded(
-                            child: AppCardWidget(
-                              margin: EdgeInsets.zero,
-                              padding: const EdgeInsets.all(AppSpacing.md),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Livros Concluídos',
-                                    style: AppTextStyles.bodyMedium.copyWith(
-                                      color: AppColors.textPrimary,
+                            child: GestureDetector(
+                              onTap: () => Navigator.of(
+                                context,
+                              ).pushNamed('/statistics'),
+                              child: AppCardWidget(
+                                margin: EdgeInsets.zero,
+                                padding: const EdgeInsets.all(AppSpacing.md),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Livros Concluídos',
+                                      style: AppTextStyles.bodyMedium.copyWith(
+                                        color: AppColors.textPrimary,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: AppSpacing.xs),
-                                  Text(
-                                    '15',
-                                    style: AppTextStyles.heading1.copyWith(
-                                      fontSize: 32,
+                                    const SizedBox(height: AppSpacing.xs),
+                                    Text(
+                                      '15',
+                                      style: AppTextStyles.heading1.copyWith(
+                                        fontSize: 32,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(width: AppSpacing.sm),
                           Expanded(
-                            child: AppCardWidget(
-                              margin: EdgeInsets.zero,
-                              padding: const EdgeInsets.all(AppSpacing.md),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Páginas Lidas',
-                                    style: AppTextStyles.bodyMedium.copyWith(
-                                      color: AppColors.textPrimary,
+                            child: GestureDetector(
+                              onTap: () => Navigator.of(
+                                context,
+                              ).pushNamed('/statistics'),
+                              child: AppCardWidget(
+                                margin: EdgeInsets.zero,
+                                padding: const EdgeInsets.all(AppSpacing.md),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Páginas Lidas',
+                                      style: AppTextStyles.bodyMedium.copyWith(
+                                        color: AppColors.textPrimary,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: AppSpacing.xs),
-                                  Text(
-                                    '4350',
-                                    style: AppTextStyles.heading1.copyWith(
-                                      fontSize: 32,
+                                    const SizedBox(height: AppSpacing.xs),
+                                    Text(
+                                      '4350',
+                                      style: AppTextStyles.heading1.copyWith(
+                                        fontSize: 32,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -127,13 +137,7 @@ class ProfilePage extends StatelessWidget {
                         child: AppButtonWidget(
                           text: 'Editar Perfil',
                           onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Funcionalidade de editar perfil em desenvolvimento',
-                                ),
-                              ),
-                            );
+                            Navigator.of(context).pushNamed('/statistics');
                           },
                         ),
                       ),

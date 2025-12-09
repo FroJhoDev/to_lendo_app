@@ -201,7 +201,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             width: 8,
             child: Container(
               decoration: const BoxDecoration(
-                color: Color(0xFFD4DDE8),
+                color: AppColors.blueGray,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8),
                   bottomLeft: Radius.circular(8),

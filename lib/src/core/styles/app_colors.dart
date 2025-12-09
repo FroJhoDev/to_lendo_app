@@ -54,6 +54,12 @@ sealed class AppColors {
   /// Alternative orange
   static const Color orangeAlt = Color(0xFFFF7A32);
 
+  /// Light orange background (period selector)
+  static const Color orangeLightBackground = Color(0xFFFFDDC7);
+
+  /// Light orange for charts and badges
+  static const Color orangeLight = Color(0xFFFFC4A3);
+
   /// Light Colors
   static const Color white = Color(0xFFFFFFFF);
 
@@ -81,6 +87,9 @@ sealed class AppColors {
 
   /// Light gray background for unselected chips
   static const Color grayLightBackground = Color(0xFFE5E5E5);
+
+  /// Blue-gray for onboarding indicators
+  static const Color blueGray = Color(0xFFD4DDE8);
 
   /// Success Color
   /// Green for positive changes

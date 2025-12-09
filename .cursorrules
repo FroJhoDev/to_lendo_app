@@ -22,6 +22,8 @@
 - Preferir arrow functions quando apropriado
 - Usar tear off quando possível (passar função como referência sem chamá-la)
 - Nomes de parâmetros de objetos sempre em inglês
+- NUNCA criar funções que retornem widgets (ex: `Widget _buildCard()`). Sempre criar widgets independentes em arquivos separados dentro da pasta widgets da feature
+- SEMPRE rodar o comando `flutter analyze` após adicionar ou alterar código e corrigir todos os alertas indicados antes de finalizar
 
 ## Documentação
 - Comentários de documentação sempre em inglês
@@ -30,3 +32,4 @@
 - Usar AppColors para todas as cores
 - Usar AppSpacing para espaçamentos
 - Usar AppTextStyles para textos
+- NUNCA usar valores de cores fixas diretamente no código (ex: `Color(0xFFFFDDC7)`). Sempre criar uma constante no AppColors quando necessário

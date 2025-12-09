@@ -25,6 +25,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: const Text('Estatísticas'),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.sm),
@@ -32,34 +33,28 @@ class _StatisticsPageState extends State<StatisticsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Period Selector
-            Container(
-              padding: const EdgeInsets.all(AppSpacing.xs),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFDDC7),
-                borderRadius: BorderRadius.circular(AppSpacing.radiusLarge),
-              ),
-              child: Row(
-                children: [
-                  _buildPeriodButton('Semana', _selectedPeriod == 'Semana'),
-                  _buildPeriodButton('Mês', _selectedPeriod == 'Mês'),
-                  _buildPeriodButton('Ano', _selectedPeriod == 'Ano'),
-                ],
-              ),
+            StatisticsPeriodSelectorWidget(
+              selectedPeriod: _selectedPeriod,
+              onPeriodChanged: (period) {
+                setState(() {
+                  _selectedPeriod = period;
+                });
+              },
             ),
             const SizedBox(height: AppSpacing.md),
             // Key Statistics Cards
-            Row(
+            const Row(
               children: [
                 Expanded(
-                  child: _buildStatCard(
+                  child: StatisticsCardWidget(
                     icon: Icons.bookmark_border,
                     label: 'Páginas/Dia',
                     value: '25',
                   ),
                 ),
-                const SizedBox(width: AppSpacing.sm),
+                SizedBox(width: AppSpacing.sm),
                 Expanded(
-                  child: _buildStatCard(
+                  child: StatisticsCardWidget(
                     icon: Icons.local_fire_department_outlined,
                     label: 'Dias Consecutivos',
                     value: '14',
@@ -68,11 +63,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
               ],
             ),
             const SizedBox(height: AppSpacing.sm),
-            _buildStatCard(
+            const StatisticsCardWidget(
               icon: Icons.star_border,
               label: 'Livros Concluídos',
               value: '5',
-              fullWidth: true,
             ),
             const SizedBox(height: AppSpacing.md),
             // Monthly Pages Read Card
@@ -119,14 +113,14 @@ class _StatisticsPageState extends State<StatisticsPage> {
                         AppSpacing.radiusSmall,
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        _buildChartBar(60),
-                        _buildChartBar(80),
-                        _buildChartBar(40),
-                        _buildChartBar(90),
+                        StatisticsChartBarWidget(height: 60),
+                        StatisticsChartBarWidget(height: 80),
+                        StatisticsChartBarWidget(height: 40),
+                        StatisticsChartBarWidget(height: 90),
                       ],
                     ),
                   ),
@@ -147,143 +141,19 @@ class _StatisticsPageState extends State<StatisticsPage> {
             // Completion Estimates
             const Text('Estimativa de Término', style: AppTextStyles.heading3),
             const SizedBox(height: AppSpacing.sm),
-            _buildCompletionEstimateItem(
-              'A Arte da Guerra',
-              '15 de Agosto',
-              '85%',
+            const StatisticsCompletionEstimateWidget(
+              title: 'A Arte da Guerra',
+              date: '15 de Agosto',
+              progress: '85%',
             ),
             const SizedBox(height: AppSpacing.xs),
-            _buildCompletionEstimateItem('O Hobbit', '29 de Setembro', '42%'),
+            const StatisticsCompletionEstimateWidget(
+              title: 'O Hobbit',
+              date: '29 de Setembro',
+              progress: '42%',
+            ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildPeriodButton(String period, bool isSelected) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _selectedPeriod = period;
-          });
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.orange : Colors.transparent,
-            borderRadius: BorderRadius.circular(AppSpacing.radiusSmall),
-          ),
-          child: Text(
-            period,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.bodyMedium.copyWith(
-              color: isSelected ? AppColors.white : AppColors.orangeDark,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatCard({
-    required IconData icon,
-    required String label,
-    required String value,
-    bool fullWidth = false,
-  }) {
-    return AppCardWidget(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: AppColors.primaryPurpleDark, size: 24),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            label,
-            style: AppTextStyles.bodyMedium.copyWith(
-              color: AppColors.textPrimary,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            value,
-            style: AppTextStyles.heading1.copyWith(
-              fontSize: 32,
-              color: AppColors.orange,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildChartBar(double height) {
-    return Container(
-      width: 40,
-      height: height,
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFC4A3),
-        borderRadius: BorderRadius.circular(AppSpacing.radiusSmall),
-      ),
-    );
-  }
-
-  Widget _buildCompletionEstimateItem(
-    String title,
-    String date,
-    String progress,
-  ) {
-    return AppCardWidget(
-      padding: const EdgeInsets.all(AppSpacing.sm),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: const BoxDecoration(
-              color: AppColors.lightLavenderAlt,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.bookmark_border,
-              color: AppColors.primaryPurpleDark,
-            ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(date, style: AppTextStyles.bodySmall),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.sm,
-              vertical: AppSpacing.xs,
-            ),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFFC4A3),
-              borderRadius: BorderRadius.circular(AppSpacing.radiusMedium),
-            ),
-            child: Text(
-              progress,
-              style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.orange,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
