@@ -24,7 +24,7 @@ class StatisticsPeriodSelectorWidget extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.nano),
       decoration: BoxDecoration(
         color: AppColors.orangeLightBackground,
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(AppSpacing.pillRadius),
       ),
       child: Row(
         children: [

@@ -12,7 +12,7 @@ sealed class AppTheme {
     useMaterial3: true,
     colorScheme: const ColorScheme.light(primary: AppColors.primaryPurple),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       elevation: 0,
       iconTheme: IconThemeData(color: AppColors.primaryPurple),
       titleTextStyle: AppTextStyles.heading2,
@@ -38,7 +38,9 @@ sealed class AppTheme {
     cardTheme: CardThemeData(
       color: AppColors.white,
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+      ),
     ),
   );
 }

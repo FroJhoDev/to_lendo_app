@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_lendo_app/src/core/styles/app_colors.dart';
-import 'package:to_lendo_app/src/core/styles/app_spacing.dart';
-import 'package:to_lendo_app/src/core/widgets/app_book_card_widget.dart';
-import 'package:to_lendo_app/src/core/widgets/app_filter_chip_widget.dart';
+import 'package:to_lendo_app/src/core/core.dart';
 
 /// {@template home_page}
 /// Main page with book list (My Library).
@@ -59,11 +56,8 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          'Minha Estante',
-          style: TextStyle(color: Colors.black),
-        ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        title: const Text('Minha Estante', style: AppTextStyles.appBarTitle),
+        iconTheme: const IconThemeData(color: AppColors.black),
         leading: IconButton(
           icon: const Icon(Icons.menu_book_outlined),
           onPressed: () {},
@@ -161,17 +155,17 @@ class _HomePageState extends State<HomePage> {
         height: 64,
         decoration: BoxDecoration(
           color: AppColors.orange,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.2),
+              color: AppColors.black.withValues(alpha: 0.2),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Material(
-          color: Colors.transparent,
+          color: AppColors.transparent,
           child: InkWell(
             onTap: () {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -182,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             },
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
             child: const Icon(Icons.add, color: AppColors.white, size: 32),
           ),
         ),

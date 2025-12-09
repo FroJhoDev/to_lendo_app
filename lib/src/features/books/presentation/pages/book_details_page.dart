@@ -152,9 +152,20 @@ class BookDetailsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppSpacing.nano),
-            _buildReadingHistoryItem('Leu 25 páginas', 'Hoje', '15 min'),
-            _buildReadingHistoryItem('Leu 30 páginas', 'Ontem', '20 min'),
-            _buildReadingHistoryItem('Começou a ler', '25/07/2024', null),
+            const ReadingHistoryItemWidget(
+              action: 'Leu 25 páginas',
+              date: 'Hoje',
+              duration: '15 min',
+            ),
+            const ReadingHistoryItemWidget(
+              action: 'Leu 30 páginas',
+              date: 'Ontem',
+              duration: '20 min',
+            ),
+            const ReadingHistoryItemWidget(
+              action: 'Começou a ler',
+              date: '25/07/2024',
+            ),
           ],
         ),
       ),
@@ -166,14 +177,14 @@ class BookDetailsPage extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.2),
+              color: AppColors.black.withValues(alpha: 0.2),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Material(
-          color: Colors.transparent,
+          color: AppColors.transparent,
           child: InkWell(
             onTap: () {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -188,49 +199,6 @@ class BookDetailsPage extends StatelessWidget {
             child: const Icon(Icons.add, color: AppColors.white, size: 32),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildReadingHistoryItem(
-    String action,
-    String date,
-    String? duration,
-  ) {
-    return AppCardWidget(
-      padding: const EdgeInsets.all(AppSpacing.sm),
-      margin: const EdgeInsets.symmetric(vertical: AppSpacing.nano),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: const BoxDecoration(
-              color: AppColors.lightLavenderAlt,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.book_outlined,
-              color: AppColors.primaryPurpleDark,
-            ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  action,
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(date, style: AppTextStyles.bodySmall),
-              ],
-            ),
-          ),
-          if (duration != null) Text(duration, style: AppTextStyles.bodySmall),
-        ],
       ),
     );
   }

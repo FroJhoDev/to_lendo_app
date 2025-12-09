@@ -30,8 +30,8 @@ class StatisticsPeriodButtonWidget extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.orange : Colors.transparent,
-            borderRadius: BorderRadius.circular(50),
+            color: isSelected ? AppColors.orange : AppColors.transparent,
+            borderRadius: BorderRadius.circular(AppSpacing.pillRadius),
           ),
           child: Text(
             period,

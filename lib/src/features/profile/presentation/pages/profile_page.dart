@@ -43,7 +43,7 @@ class ProfilePage extends StatelessWidget {
                           border: Border.all(color: AppColors.white, width: 4),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.15),
+                              color: AppColors.black.withValues(alpha: 0.15),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),

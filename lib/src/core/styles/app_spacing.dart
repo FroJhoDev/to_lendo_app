@@ -50,4 +50,7 @@ sealed class AppSpacing {
 
   /// Rounded borders for cards (20.0)
   static const double cardRadius = 20.0;
+
+  /// Pill shape border radius for chips and buttons (50.0)
+  static const double pillRadius = 50.0;
 }

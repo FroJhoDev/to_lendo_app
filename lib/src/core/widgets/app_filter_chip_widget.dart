@@ -32,7 +32,7 @@ class AppFilterChipWidget extends StatelessWidget {
       selectedColor: AppColors.orange,
       showCheckmark: false,
       labelStyle: AppTextStyles.bodyMedium.copyWith(
-        color: isSelected ? AppColors.white : Colors.black,
+        color: isSelected ? AppColors.white : AppColors.black,
         fontWeight: FontWeight.bold,
       ),
 
@@ -40,7 +40,9 @@ class AppFilterChipWidget extends StatelessWidget {
         horizontal: AppSpacing.sm,
         vertical: AppSpacing.xs,
       ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSpacing.pillRadius),
+      ),
       side: BorderSide.none,
     );
   }

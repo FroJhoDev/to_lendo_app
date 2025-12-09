@@ -76,7 +76,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   return OnboardingSlideWidget(
                     title: _slides[index]['title']!,
                     description: _slides[index]['description']!,
-                    illustration: _buildBookIllustration(),
+                    illustration: const BookIllustrationWidget(),
                   );
                 },
               ),
@@ -125,91 +125,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildBookIllustration() {
-    return Container(
-      width: 200,
-      height: 200,
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppSpacing.radiusSmall),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          // Book pages
-          Positioned.fill(
-            child: Container(
-              margin: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            height: 4,
-                            color: Colors.black.withValues(alpha: 0.1),
-                          ),
-                          const SizedBox(height: 8),
-                          Container(
-                            width: 60,
-                            height: 4,
-                            color: Colors.black.withValues(alpha: 0.1),
-                          ),
-                          const SizedBox(height: 8),
-                          Container(
-                            width: double.infinity,
-                            height: 4,
-                            color: Colors.black.withValues(alpha: 0.1),
-                          ),
-                          const SizedBox(height: 8),
-                          Container(
-                            width: 80,
-                            height: 4,
-                            color: Colors.black.withValues(alpha: 0.1),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // Book spine
-          Positioned(
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: 8,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: AppColors.blueGray,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  bottomLeft: Radius.circular(8),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

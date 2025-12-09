@@ -91,10 +91,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               onPressed: _handleForgotPassword,
               child: const Text(
                 'Esqueceu a senha?',
-                style: TextStyle(
-                  color: AppColors.primaryPurpleMedium,
-                  fontSize: 14,
-                ),
+                style: AppTextStyles.forgotPassword,
               ),
             ),
           ),

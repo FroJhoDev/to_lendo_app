@@ -60,7 +60,7 @@ class AppBookCardWidget extends StatelessWidget {
                         Text(
                           title,
                           style: AppTextStyles.heading3.copyWith(
-                            color: Colors.black,
+                            color: AppColors.black,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -91,7 +91,7 @@ class AppBookCardWidget extends StatelessWidget {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.15),
+                          color: AppColors.black.withValues(alpha: 0.15),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -106,9 +106,9 @@ class AppBookCardWidget extends StatelessWidget {
                               coverImage ?? '',
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
-                                  _buildPlaceholder(),
+                                  const AppBookPlaceholderWidget(),
                             )
-                          : _buildPlaceholder(),
+                          : const AppBookPlaceholderWidget(),
                     ),
                   ),
                 ],
@@ -168,13 +168,6 @@ class AppBookCardWidget extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.sm),
       ],
-    );
-  }
-
-  Widget _buildPlaceholder() {
-    return const ColoredBox(
-      color: AppColors.lightLavender,
-      child: Icon(Icons.book, color: AppColors.mediumPurple, size: 40),
     );
   }
 }

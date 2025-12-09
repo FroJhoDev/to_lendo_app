@@ -114,4 +114,20 @@ sealed class AppTextStyles {
     color: AppColors.primaryPurpleMedium,
     decoration: TextDecoration.underline,
   );
+
+  /// App Bar Title
+  /// App bar title text (20px, normal, black)
+  static const TextStyle appBarTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.normal,
+    color: AppColors.black,
+  );
+
+  /// Forgot Password Link
+  /// Forgot password link text (14px, normal)
+  static const TextStyle forgotPassword = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: AppColors.primaryPurpleMedium,
+  );
 }

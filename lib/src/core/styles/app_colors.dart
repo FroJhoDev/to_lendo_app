@@ -63,6 +63,12 @@ sealed class AppColors {
   /// Light Colors
   static const Color white = Color(0xFFFFFFFF);
 
+  /// Black color for text and icons
+  static const Color black = Color(0xFF000000);
+
+  /// Transparent color
+  static const Color transparent = Color(0x00000000);
+
   /// Light lavender (inputs)
   static const Color lightLavender = Color(0xFFF0EBF8);
 
