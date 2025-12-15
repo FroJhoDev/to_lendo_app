@@ -24,6 +24,12 @@
 - Nomes de parâmetros de objetos sempre em inglês
 - NUNCA criar funções que retornem widgets (ex: `Widget _buildCard()`). Sempre criar widgets independentes em arquivos separados dentro da pasta widgets da feature
 - SEMPRE rodar o comando `flutter analyze` após adicionar ou alterar código e corrigir todos os alertas indicados antes de finalizar
+- Ordem dos métodos em classes StatefulWidget:
+  * Declaração de variáveis
+  * `initState` (se houver) - sempre no começo, depois das variáveis e antes das funções privadas
+  * Funções privadas
+  * `dispose` (se houver) - sempre antes do método `build`
+  * `build`
 
 ## Documentação
 - Comentários de documentação sempre em inglês

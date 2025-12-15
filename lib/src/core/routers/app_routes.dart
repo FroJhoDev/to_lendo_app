@@ -8,6 +8,9 @@ enum AppRoutes {
   /// Authentication route
   auth('/auth'),
 
+  /// Registration route
+  register('/register'),
+
   /// Home route
   home('/home'),
 

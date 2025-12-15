@@ -18,27 +18,15 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
   void _handleLogin() {
-    if (_formKey.currentState!.validate()) {
-      // Navigate to home
-      context.go(AppRoutes.home.path);
-    }
+    // if (_formKey.currentState?.validate() ?? false) {
+    context.go(AppRoutes.home.path);
+    // }
   }
 
-  void _handleCreateAccount() {
-    // Navigate to register (for now, just go to home)
-    context.go(AppRoutes.home.path);
-  }
+  void _handleCreateAccount() => context.push(AppRoutes.register.path);
 
   void _handleForgotPassword() {
-    // Show forgot password dialog or navigate
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
@@ -46,6 +34,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override

@@ -28,6 +28,7 @@ class AppRoute {
   static String? _redirect(BuildContext context, GoRouterState state) {
     final isOnboarding = state.matchedLocation == AppRoutes.onboarding.path;
     final isAuth = state.matchedLocation == AppRoutes.auth.path;
+    final isRegister = state.matchedLocation == AppRoutes.register.path;
     final isHome = state.matchedLocation == AppRoutes.home.path;
 
     // Allow navigation to onboarding only if it's the initial route
@@ -41,6 +42,11 @@ class AppRoute {
       return null;
     }
 
+    // Skip redirect if already on register and not logged in
+    if (isRegister && !_isLoggedIn) {
+      return null;
+    }
+
     // Skip redirect if already on home
     if (isHome) {
       return null;
@@ -50,8 +56,8 @@ class AppRoute {
     // After that, allow normal navigation flow
     // This prevents redirecting back to onboarding when user navigates to other routes
 
-    // Redirect to auth if not logged in and not on onboarding/auth
-    if (!_isLoggedIn && !isAuth && !isOnboarding) {
+    // Redirect to auth if not logged in and not on onboarding/auth/register
+    if (!_isLoggedIn && !isAuth && !isOnboarding && !isRegister) {
       return AppRoutes.auth.path;
     }
 
@@ -74,6 +80,10 @@ class AppRoute {
         builder: (_, __) => const OnboardingPage(),
       ),
       GoRoute(path: AppRoutes.auth.path, builder: (_, __) => const AuthPage()),
+      GoRoute(
+        path: AppRoutes.register.path,
+        builder: (_, __) => const RegisterPage(),
+      ),
       GoRoute(path: AppRoutes.home.path, builder: (_, __) => const HomePage()),
       GoRoute(
         path: AppRoutes.addBook.path,

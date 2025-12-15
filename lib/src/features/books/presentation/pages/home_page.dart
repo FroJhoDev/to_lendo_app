@@ -66,9 +66,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline),
-            onPressed: () {
-              context.push(AppRoutes.profile.path);
-            },
+            onPressed: () => context.push(AppRoutes.profile.path),
           ),
         ],
       ),
@@ -144,7 +142,9 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       // TODO(team): Update when BookModel is implemented with proper ID
                       final bookId = (book['title'] as String?) ?? 'unknown';
-                      context.push(AppRoutes.bookDetails.path.replaceAll(':id', bookId));
+                      context.push(
+                        AppRoutes.bookDetails.path.replaceAll(':id', bookId),
+                      );
                     },
                   );
                 },
