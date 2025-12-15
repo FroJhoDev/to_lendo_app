@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:packages/packages.dart';
+import 'package:to_lendo_app/src/injections.dart';
 import 'package:to_lendo_app/src/src.dart';
 
 /// {@template app_route}
@@ -8,62 +9,66 @@ import 'package:to_lendo_app/src/src.dart';
 class AppRoute {
   AppRoute._();
 
-  // TODO(team): Implement with RedirectService when available
-  /// Check if user has completed onboarding
-  static bool get _isFirstOpen => true;
-
-  // TODO(team): Implement with AuthService when available
-  /// Check if user is logged in
-  static bool get _isLoggedIn => false;
+  static RedirectService get _redirectService {
+    return injection<RedirectService>();
+  }
 
   /// Initial route based on app state
   static String get _initialLocation {
-    if (_isFirstOpen) {
-      return AppRoutes.onboarding.path;
-    }
-    return _isLoggedIn ? AppRoutes.home.path : AppRoutes.auth.path;
+    return _redirectService.getInitialRoute();
   }
 
   /// Redirect logic for navigation
-  static String? _redirect(BuildContext context, GoRouterState state) {
+  static Future<String?> _redirect(
+    BuildContext context,
+    GoRouterState state,
+  ) async {
+    final redirectService = _redirectService;
+    final isAuthenticated = await redirectService.isAuthenticated();
+    final isFirstOpen = redirectService.isFirstOpen;
+
     final isOnboarding = state.matchedLocation == AppRoutes.onboarding.path;
     final isAuth = state.matchedLocation == AppRoutes.auth.path;
     final isRegister = state.matchedLocation == AppRoutes.register.path;
     final isHome = state.matchedLocation == AppRoutes.home.path;
 
-    // Allow navigation to onboarding only if it's the initial route
-    // Once user moves past onboarding, don't redirect back
+    // Allow navigation to onboarding only if it's the first open
     if (isOnboarding) {
+      if (!isFirstOpen) {
+        // If onboarding was already completed, redirect to auth
+        return AppRoutes.auth.path;
+      }
       return null; // Allow onboarding to be shown
     }
 
     // Skip redirect if already on auth and not logged in
-    if (isAuth && !_isLoggedIn) {
+    if (isAuth && !isAuthenticated) {
       return null;
     }
 
     // Skip redirect if already on register and not logged in
-    if (isRegister && !_isLoggedIn) {
+    if (isRegister && !isAuthenticated) {
       return null;
     }
 
     // Skip redirect if already on home
-    if (isHome) {
+    if (isHome && isAuthenticated) {
       return null;
     }
 
-    // Only redirect to onboarding on initial load if first open
-    // After that, allow normal navigation flow
-    // This prevents redirecting back to onboarding when user navigates to other routes
-
     // Redirect to auth if not logged in and not on onboarding/auth/register
-    if (!_isLoggedIn && !isAuth && !isOnboarding && !isRegister) {
+    if (!isAuthenticated && !isAuth && !isOnboarding && !isRegister) {
       return AppRoutes.auth.path;
     }
 
-    // Redirect to home if logged in and on auth
-    if (_isLoggedIn && isAuth) {
+    // Redirect to home if logged in and on auth/register
+    if (isAuthenticated && (isAuth || isRegister)) {
       return AppRoutes.home.path;
+    }
+
+    // Redirect to auth if trying to access protected routes without authentication
+    if (!isAuthenticated && !isAuth && !isOnboarding && !isRegister) {
+      return AppRoutes.auth.path;
     }
 
     return null;

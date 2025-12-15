@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:packages/packages.dart';
+import 'package:to_lendo_app/src/injections.dart';
 import 'package:to_lendo_app/src/src.dart';
 
 /// {@template onboarding_page}
@@ -41,20 +42,28 @@ class _OnboardingPageState extends State<OnboardingPage> {
     super.dispose();
   }
 
-  void _nextPage() {
+  Future<void> _nextPage() async {
     if (_currentPage < _slides.length - 1) {
-      _pageController.nextPage(
+      await _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     } else {
+      // Mark onboarding as completed
+      await injection<RedirectService>().markOnboardingCompleted();
       // Navigate to auth page
-      context.go(AppRoutes.auth.path);
+      if (mounted) {
+        context.go(AppRoutes.auth.path);
+      }
     }
   }
 
-  void _skip() {
-    context.go(AppRoutes.auth.path);
+  Future<void> _skip() async {
+    // Mark onboarding as completed
+    await injection<RedirectService>().markOnboardingCompleted();
+    if (mounted) {
+      context.go(AppRoutes.auth.path);
+    }
   }
 
   @override
