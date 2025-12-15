@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/src.dart';
 
 /// {@template book_details_page}
@@ -34,7 +35,7 @@ class BookDetailsPage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
         title: const Text('Detalhes do Livro'),
         centerTitle: true,

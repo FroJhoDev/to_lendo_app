@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/core/core.dart';
 
 /// {@template home_page}
@@ -66,7 +67,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.person_outline),
             onPressed: () {
-              Navigator.of(context).pushNamed('/profile');
+              context.push(AppRoutes.profile.path);
             },
           ),
         ],
@@ -140,9 +141,11 @@ class _HomePageState extends State<HomePage> {
                     totalPages: book['totalPages'] as int,
                     pagesRead: book['pagesRead'] as int,
                     isCompleted: book['isCompleted'] as bool,
-                    onTap: () => Navigator.of(
-                      context,
-                    ).pushNamed('/book-details', arguments: book),
+                    onTap: () {
+                      // TODO(team): Update when BookModel is implemented with proper ID
+                      final bookId = (book['title'] as String?) ?? 'unknown';
+                      context.push(AppRoutes.bookDetails.path.replaceAll(':id', bookId));
+                    },
                   );
                 },
               ),

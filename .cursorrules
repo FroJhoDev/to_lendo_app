@@ -28,6 +28,15 @@
 ## Documentação
 - Comentários de documentação sempre em inglês
 
+## Documentação de Arquitetura
+- SEMPRE consultar os documentos em `docs/` antes de implementar qualquer funcionalidade, especialmente:
+  - `docs/ARCHITECTURE.md`: Contém os princípios de arquitetura, padrões de código, estrutura de camadas (Domain/Data/Presentation), gerenciamento de estado, roteamento, injeção de dependências, e todas as convenções do projeto
+  - `docs/STRUCTURE.md`: Contém a estrutura detalhada de pastas, organização de features, convenções de nomenclatura, barrel files, e exemplos de estrutura para cada feature
+- Seguir estritamente os padrões e convenções descritos nesses documentos
+- Ao criar novas features, seguir a estrutura e organização descrita na documentação
+- Ao implementar novos componentes, respeitar as camadas (Domain/Data/Presentation) e padrões estabelecidos
+- Verificar se a implementação está alinhada com a arquitetura offline-first e Clean Architecture descritas
+
 ## Estilo
 - Usar AppColors para todas as cores
 - Usar AppSpacing para espaçamentos

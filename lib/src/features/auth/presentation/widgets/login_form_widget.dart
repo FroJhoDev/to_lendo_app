@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/src.dart';
 
 /// {@template login_form_widget}
@@ -27,13 +28,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
       // Navigate to home
-      Navigator.of(context).pushReplacementNamed('/home');
+      context.go(AppRoutes.home.path);
     }
   }
 
   void _handleCreateAccount() {
     // Navigate to register (for now, just go to home)
-    Navigator.of(context).pushReplacementNamed('/home');
+    context.go(AppRoutes.home.path);
   }
 
   void _handleForgotPassword() {

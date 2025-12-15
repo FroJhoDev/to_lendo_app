@@ -14,21 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Tô Lendo',
       theme: AppTheme.theme,
-      initialRoute: '/onboarding',
-      routes: {
-        '/onboarding': (context) => const OnboardingPage(),
-        '/auth': (context) => const AuthPage(),
-        '/home': (context) => const HomePage(),
-        '/book-details': (context) {
-          final args = ModalRoute.of(context)!.settings.arguments;
-          return BookDetailsPage(book: args as Map<String, dynamic>?);
-        },
-        '/profile': (context) => const ProfilePage(),
-        '/statistics': (context) => const StatisticsPage(),
-      },
+      routerConfig: AppRoute.routes,
       debugShowCheckedModeBanner: false,
     );
   }

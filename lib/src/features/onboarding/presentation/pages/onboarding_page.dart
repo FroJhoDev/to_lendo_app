@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/src.dart';
 
 /// {@template onboarding_page}
@@ -48,12 +49,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
       );
     } else {
       // Navigate to auth page
-      Navigator.of(context).pushReplacementNamed('/auth');
+      context.go(AppRoutes.auth.path);
     }
   }
 
   void _skip() {
-    Navigator.of(context).pushReplacementNamed('/auth');
+    context.go(AppRoutes.auth.path);
   }
 
   @override

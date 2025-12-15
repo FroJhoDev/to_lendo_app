@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/src.dart';
 
 /// {@template profile_page}
@@ -15,7 +16,7 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
         title: const Text('Perfil'),
         centerTitle: true,
@@ -72,9 +73,7 @@ class ProfilePage extends StatelessWidget {
                         children: [
                           Expanded(
                             child: GestureDetector(
-                              onTap: () => Navigator.of(
-                                context,
-                              ).pushNamed('/statistics'),
+                              onTap: () => context.push(AppRoutes.statistics.path),
                               child: AppCardWidget(
                                 margin: EdgeInsets.zero,
                                 padding: const EdgeInsets.all(AppSpacing.md),
@@ -102,9 +101,7 @@ class ProfilePage extends StatelessWidget {
                           const SizedBox(width: AppSpacing.sm),
                           Expanded(
                             child: GestureDetector(
-                              onTap: () => Navigator.of(
-                                context,
-                              ).pushNamed('/statistics'),
+                              onTap: () => context.push(AppRoutes.statistics.path),
                               child: AppCardWidget(
                                 margin: EdgeInsets.zero,
                                 padding: const EdgeInsets.all(AppSpacing.md),
@@ -137,14 +134,14 @@ class ProfilePage extends StatelessWidget {
                         child: AppButtonWidget(
                           text: 'Editar Perfil',
                           onPressed: () {
-                            Navigator.of(context).pushNamed('/statistics');
+                            context.push(AppRoutes.statistics.path);
                           },
                         ),
                       ),
                       const SizedBox(height: AppSpacing.sm),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacementNamed('/auth');
+                          context.go(AppRoutes.auth.path);
                         },
                         child: Text(
                           'Sair',
