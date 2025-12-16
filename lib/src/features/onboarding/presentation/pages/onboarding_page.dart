@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:packages/packages.dart';
-import 'package:to_lendo_app/src/injections.dart';
 import 'package:to_lendo_app/src/src.dart';
 
 /// {@template onboarding_page}
@@ -21,19 +20,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final List<Map<String, String>> _slides = [
     {
       'title': 'Registre seu progresso diariamente.',
-      'description':
-          'Crie o hábito da leitura e veja sua evolução a cada página.',
+      'description': 'Crie o hábito da leitura e veja sua evolução a cada página.',
     },
     {
       'title': 'Acompanhe suas estatísticas.',
-      'description':
-          'Veja quantas páginas você leu, seus dias consecutivos e muito mais.',
+      'description': 'Veja quantas páginas você leu, seus dias consecutivos e muito mais.',
     },
-    {
-      'title': 'Sincronize na nuvem.',
-      'description':
-          'Seus livros e progresso são salvos automaticamente na nuvem.',
-    },
+    {'title': 'Sincronize na nuvem.', 'description': 'Seus livros e progresso são salvos automaticamente na nuvem.'},
   ];
 
   @override
@@ -44,10 +37,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   Future<void> _nextPage() async {
     if (_currentPage < _slides.length - 1) {
-      await _pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      await _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
     } else {
       // Mark onboarding as completed
       await injection<RedirectService>().markOnboardingCompleted();
@@ -96,10 +86,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               padding: const EdgeInsets.all(AppSpacing.lg),
               child: Column(
                 children: [
-                  OnboardingIndicatorWidget(
-                    currentIndex: _currentPage,
-                    totalPages: _slides.length,
-                  ),
+                  OnboardingIndicatorWidget(currentIndex: _currentPage, totalPages: _slides.length),
                   const SizedBox(height: AppSpacing.lg),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,10 +94,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       TextButton(
                         onPressed: _skip,
                         style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.md,
-                            vertical: AppSpacing.sm,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
                         ),
                         child: Text(
                           'Pular',
@@ -122,11 +106,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       ),
                       SizedBox(
                         width: 120,
-                        child: AppButtonWidget(
-                          text: 'Próximo',
-                          onPressed: _nextPage,
-                          variant: ButtonVariant.secondary,
-                        ),
+                        child: AppButtonWidget(text: 'Próximo', onPressed: _nextPage, variant: ButtonVariant.secondary),
                       ),
                     ],
                   ),

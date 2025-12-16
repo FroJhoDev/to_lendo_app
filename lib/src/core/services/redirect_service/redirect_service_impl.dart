@@ -7,9 +7,7 @@ import 'package:to_lendo_app/src/src.dart';
 /// {@endtemplate}
 class RedirectServiceImpl implements RedirectService {
   /// {@macro redirect_service_impl}
-  RedirectServiceImpl({
-    required FlutterSecureStorage secureStorage,
-  }) : _secureStorage = secureStorage;
+  RedirectServiceImpl({required FlutterSecureStorage secureStorage}) : _secureStorage = secureStorage;
 
   final FlutterSecureStorage _secureStorage;
   static const String _firstOpenKey = 'first_open';
@@ -49,15 +47,20 @@ class RedirectServiceImpl implements RedirectService {
       return AppRoutes.onboarding.path;
     }
 
-    // TODO(team): Use isAuthenticated() when AuthService is available
-    // For now, default to auth page if not first open
+    // Authentication check is done asynchronously in the router
+    // Default to auth page, router will redirect if authenticated
     return AppRoutes.auth.path;
   }
 
   @override
   Future<bool> isAuthenticated() async {
-    // TODO(team): Implement with AuthService when available
-    // Example: return await _authService?.isLoggedIn() ?? false;
-    return false;
+    try {
+      final authRepository = injection<AuthRepository>();
+      final result = await authRepository.getCurrentUser();
+      return result.fold((_) => false, (UserModel? user) => user != null);
+    } catch (error) {
+      debugPrint('Error checking authentication: $error');
+      return false;
+    }
   }
 }

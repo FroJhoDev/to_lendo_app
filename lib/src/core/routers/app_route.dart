@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:packages/packages.dart';
-import 'package:to_lendo_app/src/injections.dart';
 import 'package:to_lendo_app/src/src.dart';
 
 /// {@template app_route}
@@ -19,10 +18,7 @@ class AppRoute {
   }
 
   /// Redirect logic for navigation
-  static Future<String?> _redirect(
-    BuildContext context,
-    GoRouterState state,
-  ) async {
+  static Future<String?> _redirect(BuildContext context, GoRouterState state) async {
     final redirectService = _redirectService;
     final isAuthenticated = await redirectService.isAuthenticated();
     final isFirstOpen = redirectService.isFirstOpen;
@@ -80,15 +76,9 @@ class AppRoute {
     debugLogDiagnostics: true,
     redirect: _redirect,
     routes: [
-      GoRoute(
-        path: AppRoutes.onboarding.path,
-        builder: (_, __) => const OnboardingPage(),
-      ),
+      GoRoute(path: AppRoutes.onboarding.path, builder: (_, __) => const OnboardingPage()),
       GoRoute(path: AppRoutes.auth.path, builder: (_, __) => const AuthPage()),
-      GoRoute(
-        path: AppRoutes.register.path,
-        builder: (_, __) => const RegisterPage(),
-      ),
+      GoRoute(path: AppRoutes.register.path, builder: (_, __) => const RegisterPage()),
       GoRoute(path: AppRoutes.home.path, builder: (_, __) => const HomePage()),
       GoRoute(
         path: AppRoutes.addBook.path,
@@ -105,14 +95,8 @@ class AppRoute {
           return const BookDetailsPage(book: null);
         },
       ),
-      GoRoute(
-        path: AppRoutes.profile.path,
-        builder: (_, __) => const ProfilePage(),
-      ),
-      GoRoute(
-        path: AppRoutes.statistics.path,
-        builder: (_, __) => const StatisticsPage(),
-      ),
+      GoRoute(path: AppRoutes.profile.path, builder: (_, __) => const ProfilePage()),
+      GoRoute(path: AppRoutes.statistics.path, builder: (_, __) => const StatisticsPage()),
     ],
   );
 }

@@ -9,14 +9,19 @@ Future<void> initInjection() async {
   // Secure Storage instance
   const secureStorage = FlutterSecureStorage();
 
-  // Core Services
-  injection.registerLazySingleton<RedirectService>(
-    () => RedirectServiceImpl(secureStorage: secureStorage),
-  );
+  // Supabase Client
+  injection
+    ..registerLazySingleton<SupabaseClient>(() => Supabase.instance.client)
+    // Core Services
+    ..registerLazySingleton<RedirectService>(() => RedirectServiceImpl(secureStorage: secureStorage));
 
-  // TODO(team): Add other services here as they are implemented
-  // - AuthService
-  // - Database
-  // - SyncService
-  // - etc.
+  // Feature Injections
+  await initAuthInjection();
+
+  // TODO(team): Add other feature injections here as they are implemented
+  // - Books
+  // - Reading Sessions
+  // - Statistics
+  // - Profile
+  // - Sync
 }

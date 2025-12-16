@@ -33,6 +33,10 @@
 
 ## Documentação
 - Comentários de documentação sempre em inglês
+- Adicionar apenas comentários de documentação (usando `///` ou `/** */`)
+- NÃO adicionar comentários de código inline (usando `//` ou `/* */`) explicando a lógica do código
+- O código deve ser autoexplicativo através de nomes descritivos e estrutura clara
+- Comentários de código só são permitidos quando absolutamente necessário para explicar decisões complexas ou não óbvias
 
 ## Documentação de Arquitetura
 - SEMPRE consultar os documentos em `docs/` antes de implementar qualquer funcionalidade, especialmente:

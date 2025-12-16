@@ -64,21 +64,14 @@ class _AppInputFieldWidgetState extends State<AppInputFieldWidget> {
           validator: widget.validator,
           keyboardType: widget.keyboardType,
           onChanged: widget.onChanged,
-          style: AppTextStyles.bodyMedium.copyWith(
-            color: AppColors.textPrimary,
-          ),
+          style: AppTextStyles.bodyMedium.copyWith(color: AppColors.black),
           decoration: InputDecoration(
             hintText: widget.hint,
             hintStyle: AppTextStyles.placeholder,
-            prefixIcon: widget.icon != null
-                ? Icon(widget.icon, color: AppColors.mediumPurple)
-                : null,
+            prefixIcon: widget.icon != null ? Icon(widget.icon, color: AppColors.mediumPurple) : null,
             suffixIcon: widget.obscureText
                 ? IconButton(
-                    icon: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                      color: AppColors.mediumPurple,
-                    ),
+                    icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off, color: AppColors.mediumPurple),
                     onPressed: () {
                       setState(() {
                         _obscureText = !_obscureText;
