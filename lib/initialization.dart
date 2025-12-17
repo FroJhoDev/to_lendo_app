@@ -9,6 +9,9 @@ Future<void> initialization() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+  // Load environment variables
+  await dotenv.load();
+
   // Initialize Supabase
   await Supabase.initialize(url: SupabaseConstants.supabaseUrl, anonKey: SupabaseConstants.supabaseAnonKey);
 

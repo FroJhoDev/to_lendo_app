@@ -19,6 +19,7 @@ dependencies:
   equatable: ^2.0.7
   freezed_annotation: ^2.4.4
   hugeicons: ^1.1.4
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:

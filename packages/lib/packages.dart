@@ -10,3 +10,4 @@ export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:equatable/equatable.dart';
 export 'package:freezed_annotation/freezed_annotation.dart';
 export 'package:hugeicons/hugeicons.dart';
+export 'package:flutter_dotenv/flutter_dotenv.dart';
