@@ -9,3 +9,4 @@ export 'package:fpdart/fpdart.dart' hide Hash, State, Unit;
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:equatable/equatable.dart';
 export 'package:freezed_annotation/freezed_annotation.dart';
+export 'package:hugeicons/hugeicons.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/core/core.dart';
 
 /// {@template app_book_card_widget}
@@ -59,17 +60,13 @@ class AppBookCardWidget extends StatelessWidget {
                       children: [
                         Text(
                           title,
-                          style: AppTextStyles.heading3.copyWith(
-                            color: AppColors.black,
-                          ),
+                          style: AppTextStyles.heading3.copyWith(color: AppColors.black),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
                           author,
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            color: AppColors.backgroundDark,
-                          ),
+                          style: AppTextStyles.bodyMedium.copyWith(color: AppColors.backgroundDark),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -83,12 +80,8 @@ class AppBookCardWidget extends StatelessWidget {
                     height: 120,
                     decoration: BoxDecoration(
                       color: AppColors.lightLavender,
-                      borderRadius: BorderRadius.circular(
-                        AppSpacing.radiusSmall,
-                      ),
-                      border: Border.all(
-                        color: AppColors.primaryPurple.withValues(alpha: 0.2),
-                      ),
+                      borderRadius: BorderRadius.circular(AppSpacing.radiusSmall),
+                      border: Border.all(color: AppColors.primaryPurple.withValues(alpha: 0.2)),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.black.withValues(alpha: 0.15),
@@ -98,15 +91,12 @@ class AppBookCardWidget extends StatelessWidget {
                       ],
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                        AppSpacing.radiusSmall,
-                      ),
+                      borderRadius: BorderRadius.circular(AppSpacing.radiusSmall),
                       child: coverImage != null
                           ? Image.network(
                               coverImage ?? '',
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const AppBookPlaceholderWidget(),
+                              errorBuilder: (context, error, stackTrace) => const AppBookPlaceholderWidget(),
                             )
                           : const AppBookPlaceholderWidget(),
                     ),
@@ -117,11 +107,7 @@ class AppBookCardWidget extends StatelessWidget {
               if (isCompleted)
                 Row(
                   children: [
-                    const Icon(
-                      Icons.check_circle_outline,
-                      color: AppColors.primaryPurpleMedium,
-                      size: 16,
-                    ),
+                    const HugeIcon(icon: AppIcons.bookmark, color: AppColors.primaryPurpleMedium, size: 18),
                     const SizedBox(width: AppSpacing.nano),
                     Text(
                       'Concluído',
@@ -140,16 +126,12 @@ class AppBookCardWidget extends StatelessWidget {
                       '${(progress * 100).toInt()}%',
                       style: AppTextStyles.bodyMedium.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: isCompleted
-                            ? AppColors.primaryPurpleMedium
-                            : AppColors.orange,
+                        color: isCompleted ? AppColors.primaryPurpleMedium : AppColors.orange,
                       ),
                     ),
                     Text(
                       '$pagesRead/$totalPages páginas',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.backgroundDark,
-                      ),
+                      style: AppTextStyles.bodyMedium.copyWith(color: AppColors.backgroundDark),
                     ),
                   ],
                 ),
@@ -158,9 +140,7 @@ class AppBookCardWidget extends StatelessWidget {
                 width: double.infinity,
                 child: AppProgressBarWidget(
                   progress: progress,
-                  color: isCompleted
-                      ? AppColors.primaryPurpleMedium
-                      : AppColors.orange,
+                  color: isCompleted ? AppColors.primaryPurpleMedium : AppColors.orange,
                 ),
               ),
             ],

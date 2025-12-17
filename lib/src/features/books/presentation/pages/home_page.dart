@@ -18,27 +18,9 @@ class _HomePageState extends State<HomePage> {
 
   // Mock data
   final List<Map<String, dynamic>> _books = [
-    {
-      'title': 'A Arte da Guerra',
-      'author': 'Sun Tzu',
-      'pagesRead': 150,
-      'totalPages': 300,
-      'isCompleted': false,
-    },
-    {
-      'title': 'O Hobbit',
-      'author': 'J.R.R. Tolkien',
-      'pagesRead': 310,
-      'totalPages': 310,
-      'isCompleted': true,
-    },
-    {
-      'title': 'Duna',
-      'author': 'Frank Herbert',
-      'pagesRead': 80,
-      'totalPages': 688,
-      'isCompleted': false,
-    },
+    {'title': 'A Arte da Guerra', 'author': 'Sun Tzu', 'pagesRead': 150, 'totalPages': 300, 'isCompleted': false},
+    {'title': 'O Hobbit', 'author': 'J.R.R. Tolkien', 'pagesRead': 310, 'totalPages': 310, 'isCompleted': true},
+    {'title': 'Duna', 'author': 'Frank Herbert', 'pagesRead': 80, 'totalPages': 688, 'isCompleted': false},
   ];
 
   List<Map<String, dynamic>> get _filteredBooks {
@@ -60,12 +42,12 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Minha Estante', style: AppTextStyles.appBarTitle),
         iconTheme: const IconThemeData(color: AppColors.black),
         leading: IconButton(
-          icon: const Icon(Icons.menu_book_outlined),
+          icon: const HugeIcon(icon: AppIcons.bookOutlined, color: AppColors.black),
           onPressed: () {},
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.person_outline),
+            icon: const HugeIcon(icon: AppIcons.user, color: AppColors.black),
             onPressed: () => context.push(AppRoutes.profile.path),
           ),
         ],
@@ -124,14 +106,11 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.xxs),
               child: ListView.builder(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.nano,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.nano),
                 itemCount: _filteredBooks.length,
                 itemBuilder: (context, index) {
                   final book = _filteredBooks[index];
-                  final progress =
-                      (book['pagesRead'] as int) / (book['totalPages'] as int);
+                  final progress = (book['pagesRead'] as int) / (book['totalPages'] as int);
                   return AppBookCardWidget(
                     title: book['title'] as String,
                     author: book['author'] as String,
@@ -142,9 +121,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       // TODO(team): Update when BookModel is implemented with proper ID
                       final bookId = (book['title'] as String?) ?? 'unknown';
-                      context.push(
-                        AppRoutes.bookDetails.path.replaceAll(':id', bookId),
-                      );
+                      context.push(AppRoutes.bookDetails.path.replaceAll(':id', bookId));
                     },
                   );
                 },
@@ -153,36 +130,12 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButton: Container(
-        width: 64,
-        height: 64,
-        decoration: BoxDecoration(
-          color: AppColors.orange,
-          borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Material(
-          color: AppColors.transparent,
-          child: InkWell(
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Funcionalidade de adicionar livro em desenvolvimento',
-                  ),
-                ),
-              );
-            },
-            borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-            child: const Icon(Icons.add, color: AppColors.white, size: 32),
-          ),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Funcionalidade de adicionar livro em desenvolvimento'))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.cardRadius)),
+        child: const HugeIcon(icon: AppIcons.add, color: AppColors.white, size: 28.0),
       ),
     );
   }

@@ -63,7 +63,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               AppInputFieldWidget(
                 label: 'Email',
                 hint: 'seuemail@exemplo.com',
-                icon: Icons.email_outlined,
+                icon: AppIcons.email,
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -80,7 +80,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               AppInputFieldWidget(
                 label: 'Senha',
                 hint: 'Sua senha',
-                icon: Icons.lock_outline,
+                icon: AppIcons.password,
                 obscureText: true,
                 controller: _passwordController,
                 validator: (value) {

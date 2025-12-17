@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/src.dart';
 
 /// {@template auth_page}
@@ -14,10 +15,7 @@ class AuthPage extends StatelessWidget {
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.xl,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.xl),
           child: Column(
             children: [
               const SizedBox(height: AppSpacing.xl),
@@ -25,27 +23,14 @@ class AuthPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.menu_book,
-                    color: AppColors.orange,
-                    size: 40,
-                  ),
+                  const HugeIcon(icon: AppIcons.appLogo, color: AppColors.orange, size: 40),
                   const SizedBox(width: AppSpacing.sm),
-                  Text(
-                    'Tô Lendo',
-                    style: AppTextStyles.heading1.copyWith(
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
+                  Text('Tô Lendo', style: AppTextStyles.heading1.copyWith(color: AppColors.textPrimary)),
                 ],
               ),
               const SizedBox(height: AppSpacing.xl),
               // Welcome Message
-              const Text(
-                'Bem-vindo de volta!',
-                style: AppTextStyles.largeTitle,
-                textAlign: TextAlign.center,
-              ),
+              const Text('Bem-vindo de volta!', style: AppTextStyles.largeTitle, textAlign: TextAlign.center),
               const SizedBox(height: AppSpacing.sm),
               const Text(
                 'Faça login para acessar seus livros.',
@@ -60,16 +45,9 @@ class AuthPage extends StatelessWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.cloud_upload_outlined,
-                    color: AppColors.mediumPurple,
-                    size: 20,
-                  ),
+                  HugeIcon(icon: AppIcons.cloudSync, color: AppColors.mediumPurple, size: 20),
                   SizedBox(width: AppSpacing.xs),
-                  Text(
-                    'Seus livros e progresso são salvos na nuvem.',
-                    style: AppTextStyles.secondaryMedium,
-                  ),
+                  Text('Seus livros e progresso são salvos na nuvem.', style: AppTextStyles.secondaryMedium),
                 ],
               ),
             ],

@@ -18,23 +18,16 @@ class RegisterPage extends StatelessWidget {
         centerTitle: true,
         iconTheme: const IconThemeData(color: AppColors.black),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const HugeIcon(icon: AppIcons.back, color: AppColors.black, size: 20),
           onPressed: context.pop,
         ),
       ),
       body: const SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.xl,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.xl),
           child: Column(
             children: [
-              Text(
-                'Bem-vindo ao Tô Lendo!',
-                style: AppTextStyles.largeTitle,
-                textAlign: TextAlign.center,
-              ),
+              Text('Bem-vindo ao Tô Lendo!', style: AppTextStyles.largeTitle, textAlign: TextAlign.center),
               SizedBox(height: AppSpacing.sm),
               Text(
                 'Salve seu progresso e sincronize sua biblioteca em todos os seus dispositivos.',

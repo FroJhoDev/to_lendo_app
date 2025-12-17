@@ -14,28 +14,21 @@ class RegisterFormWidget extends StatefulWidget {
 }
 
 class _RegisterFormWidgetState extends State<RegisterFormWidget> {
+  final AuthCubit _authCubit = injection<AuthCubit>();
+
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  late final AuthCubit _authCubit;
 
-  @override
-  void initState() {
-    super.initState();
-    _authCubit = injection<AuthCubit>();
-  }
-
-  void _handleRegister() {
-    if (_formKey.currentState?.validate() ?? false) {
-      _authCubit.signUpWithEmail(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-        name: _nameController.text.trim().isNotEmpty ? _nameController.text.trim() : null,
-      );
-    }
-  }
+  void _handleRegister() => _formKey.currentState?.validate() ?? false
+      ? _authCubit.signUpWithEmail(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          name: _nameController.text.trim().isNotEmpty ? _nameController.text.trim() : null,
+        )
+      : null;
 
   @override
   void dispose() {
@@ -52,11 +45,18 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
       bloc: _authCubit,
       listener: (context, state) {
         if (state.status == AuthStateStatus.authenticated) {
+          AppSnackbar.success(
+            context,
+            message: 'Conta criada com sucesso! Você será redirecionado para a tela inicial.',
+          );
           context.go(AppRoutes.home.path);
           return;
         }
 
-        AppSnackbar.error(context, message: state.message);
+        if (state.status == AuthStateStatus.error) {
+          AppSnackbar.error(context, message: state.message);
+          return;
+        }
       },
       builder: (context, state) {
         final isLoading = state.status == AuthStateStatus.loading;
@@ -69,7 +69,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               AppInputFieldWidget(
                 label: 'Nome',
                 hint: 'Seu nome completo',
-                icon: Icons.person_outline,
+                icon: AppIcons.user,
                 controller: _nameController,
                 keyboardType: TextInputType.name,
               ),
@@ -77,7 +77,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               AppInputFieldWidget(
                 label: 'Email',
                 hint: 'seuemail@exemplo.com',
-                icon: Icons.email_outlined,
+                icon: AppIcons.email,
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -94,7 +94,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               AppInputFieldWidget(
                 label: 'Senha',
                 hint: 'Sua senha',
-                icon: Icons.lock_outline,
+                icon: AppIcons.password,
                 obscureText: true,
                 controller: _passwordController,
                 validator: (value) {
@@ -111,7 +111,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               AppInputFieldWidget(
                 label: 'Confirmar senha',
                 hint: 'Confirme sua senha',
-                icon: Icons.lock_outline,
+                icon: AppIcons.password,
                 obscureText: true,
                 controller: _confirmPasswordController,
                 validator: (value) {

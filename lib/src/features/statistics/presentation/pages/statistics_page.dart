@@ -22,7 +22,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const HugeIcon(icon: AppIcons.back, color: AppColors.black, size: 20),
           onPressed: () => context.pop(),
         ),
         title: const Text('Estatísticas'),
@@ -47,30 +47,18 @@ class _StatisticsPageState extends State<StatisticsPage> {
             const Row(
               children: [
                 Expanded(
-                  child: StatisticsCardWidget(
-                    icon: Icons.bookmark_border,
-                    label: 'Páginas/Dia',
-                    value: '25',
-                  ),
+                  child: StatisticsCardWidget(icon: AppIcons.bookmark, label: 'Páginas/Dia', value: '25'),
                 ),
                 SizedBox(width: AppSpacing.sm),
                 Expanded(
-                  child: StatisticsCardWidget(
-                    icon: Icons.local_fire_department_outlined,
-                    label: 'Dias Consecutivos',
-                    value: '14',
-                  ),
+                  child: StatisticsCardWidget(icon: AppIcons.fire, label: 'Dias Consecutivos', value: '14'),
                 ),
               ],
             ),
             const SizedBox(height: AppSpacing.sm),
             const SizedBox(
               width: double.infinity,
-              child: StatisticsCardWidget(
-                icon: Icons.star_border,
-                label: 'Livros Concluídos',
-                value: '5',
-              ),
+              child: StatisticsCardWidget(icon: AppIcons.starOutlined, label: 'Livros Concluídos', value: '5'),
             ),
             const SizedBox(height: AppSpacing.sm),
             // Monthly Pages Read Card
@@ -81,32 +69,15 @@ class _StatisticsPageState extends State<StatisticsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Páginas Lidas este Mês',
-                      style: AppTextStyles.heading3,
-                    ),
+                    const Text('Páginas Lidas este Mês', style: AppTextStyles.heading3),
                     const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      '750',
-                      style: AppTextStyles.heading1.copyWith(
-                        fontSize: 48,
-                        color: AppColors.orange,
-                      ),
-                    ),
+                    Text('750', style: AppTextStyles.heading1.copyWith(fontSize: 48, color: AppColors.orange)),
                     const SizedBox(height: AppSpacing.xs),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          '1 - 31 de Julho',
-                          style: AppTextStyles.bodySmall,
-                        ),
-                        Text(
-                          '+15%',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            color: AppColors.success,
-                          ),
-                        ),
+                        const Text('1 - 31 de Julho', style: AppTextStyles.bodySmall),
+                        Text('+15%', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.success)),
                       ],
                     ),
                     const SizedBox(height: AppSpacing.md),
@@ -115,9 +86,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                       height: 100,
                       decoration: BoxDecoration(
                         color: AppColors.lightLavender,
-                        borderRadius: BorderRadius.circular(
-                          AppSpacing.radiusSmall,
-                        ),
+                        borderRadius: BorderRadius.circular(AppSpacing.radiusSmall),
                       ),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -159,11 +128,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
             const SizedBox(height: AppSpacing.xs),
             const SizedBox(
               width: double.infinity,
-              child: StatisticsCompletionEstimateWidget(
-                title: 'O Hobbit',
-                date: '29 de Setembro',
-                progress: '42%',
-              ),
+              child: StatisticsCompletionEstimateWidget(title: 'O Hobbit', date: '29 de Setembro', progress: '42%'),
             ),
           ],
         ),

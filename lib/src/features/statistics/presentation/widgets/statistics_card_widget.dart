@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/src.dart';
 
 /// {@template statistics_card_widget}
@@ -6,15 +7,10 @@ import 'package:to_lendo_app/src/src.dart';
 /// {@endtemplate}
 class StatisticsCardWidget extends StatelessWidget {
   /// {@macro statistics_card_widget}
-  const StatisticsCardWidget({
-    super.key,
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
+  const StatisticsCardWidget({super.key, required this.icon, required this.label, required this.value});
 
   /// Icon to display.
-  final IconData icon;
+  final List<List<dynamic>> icon;
 
   /// Label text.
   final String label;
@@ -29,22 +25,11 @@ class StatisticsCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: AppColors.primaryPurpleDark, size: 24),
+          HugeIcon(icon: icon, color: AppColors.primaryPurpleDark),
           const SizedBox(height: AppSpacing.sm),
-          Text(
-            label,
-            style: AppTextStyles.bodyMedium.copyWith(
-              color: AppColors.textPrimary,
-            ),
-          ),
+          Text(label, style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary)),
           const SizedBox(height: AppSpacing.xs),
-          Text(
-            value,
-            style: AppTextStyles.heading1.copyWith(
-              fontSize: 32,
-              color: AppColors.orange,
-            ),
-          ),
+          Text(value, style: AppTextStyles.heading1.copyWith(fontSize: 32, color: AppColors.orange)),
         ],
       ),
     );

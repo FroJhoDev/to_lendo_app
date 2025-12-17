@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/core/core.dart';
 
 /// {@template app_input_field_widget}
@@ -25,7 +26,7 @@ class AppInputFieldWidget extends StatefulWidget {
   final String hint;
 
   /// Optional icon for the input field.
-  final IconData? icon;
+  final List<List<dynamic>>? icon;
 
   /// Whether the field should hide text (for passwords).
   final bool obscureText;
@@ -68,10 +69,20 @@ class _AppInputFieldWidgetState extends State<AppInputFieldWidget> {
           decoration: InputDecoration(
             hintText: widget.hint,
             hintStyle: AppTextStyles.placeholder,
-            prefixIcon: widget.icon != null ? Icon(widget.icon, color: AppColors.mediumPurple) : null,
+            prefixIconConstraints: const BoxConstraints(minWidth: 20.0, minHeight: 20.0),
+            prefixIcon: widget.icon != null
+                ? Padding(
+                    padding: const EdgeInsets.only(left: AppSpacing.xs, right: AppSpacing.nano),
+                    child: HugeIcon(icon: widget.icon ?? [], color: AppColors.mediumPurple, size: 20.0),
+                  )
+                : null,
             suffixIcon: widget.obscureText
                 ? IconButton(
-                    icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off, color: AppColors.mediumPurple),
+                    icon: HugeIcon(
+                      icon: _obscureText ? AppIcons.visibilityOn : AppIcons.visibilityOff,
+                      color: AppColors.mediumPurple,
+                      size: 20.0,
+                    ),
                     onPressed: () {
                       setState(() {
                         _obscureText = !_obscureText;

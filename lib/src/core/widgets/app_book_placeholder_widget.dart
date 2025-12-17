@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/core/core.dart';
 
 /// {@template app_book_placeholder_widget}
@@ -12,7 +13,9 @@ class AppBookPlaceholderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const ColoredBox(
       color: AppColors.lightLavender,
-      child: Icon(Icons.book, color: AppColors.mediumPurple, size: 40),
+      child: Center(
+        child: HugeIcon(icon: AppIcons.book, color: AppColors.mediumPurple, size: 32),
+      ),
     );
   }
 }

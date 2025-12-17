@@ -47,8 +47,6 @@ class RedirectServiceImpl implements RedirectService {
       return AppRoutes.onboarding.path;
     }
 
-    // Authentication check is done asynchronously in the router
-    // Default to auth page, router will redirect if authenticated
     return AppRoutes.auth.path;
   }
 

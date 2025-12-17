@@ -34,20 +34,20 @@ class BookDetailsPage extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const HugeIcon(icon: AppIcons.back, color: AppColors.black, size: 20),
           onPressed: () => context.pop(),
         ),
         title: const Text('Detalhes do Livro'),
         centerTitle: true,
         actions: [
-          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
+          IconButton(
+            icon: const HugeIcon(icon: AppIcons.more, color: AppColors.black, size: 20),
+            onPressed: () {},
+          ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm,
-          vertical: AppSpacing.nano,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.nano),
         child: Column(
           children: [
             AppCardWidget(
@@ -60,25 +60,15 @@ class BookDetailsPage extends StatelessWidget {
                     height: 300,
                     decoration: BoxDecoration(
                       color: AppColors.lightLavender,
-                      borderRadius: BorderRadius.circular(
-                        AppSpacing.radiusSmall,
-                      ),
+                      borderRadius: BorderRadius.circular(AppSpacing.radiusSmall),
                     ),
-                    child: const Icon(
-                      Icons.book,
-                      size: 100,
-                      color: AppColors.mediumPurple,
-                    ),
+                    child: const HugeIcon(icon: AppIcons.book, size: 80, color: AppColors.mediumPurple),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: AppSpacing.md),
-            Text(
-              _book['title'] as String,
-              style: AppTextStyles.heading1,
-              textAlign: TextAlign.center,
-            ),
+            Text(_book['title'] as String, style: AppTextStyles.heading1, textAlign: TextAlign.center),
             Text(
               _book['author'] as String,
               style: AppTextStyles.orangeText.copyWith(fontSize: 16),
@@ -113,16 +103,10 @@ class BookDetailsPage extends StatelessWidget {
                   const SizedBox(height: AppSpacing.sm),
                   SizedBox(
                     width: double.infinity,
-                    child: AppProgressBarWidget(
-                      progress: progress,
-                      color: AppColors.orange,
-                    ),
+                    child: AppProgressBarWidget(progress: progress, color: AppColors.orange),
                   ),
                   const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    'Estimativa de término: ${_book['estimatedCompletion']}',
-                    style: AppTextStyles.orangeText,
-                  ),
+                  Text('Estimativa de término: ${_book['estimatedCompletion']}', style: AppTextStyles.orangeText),
                 ],
               ),
             ),
@@ -132,10 +116,7 @@ class BookDetailsPage extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    const Text(
-                      'Minha Avaliação',
-                      style: AppTextStyles.heading3,
-                    ),
+                    const Text('Minha Avaliação', style: AppTextStyles.heading3),
                     const SizedBox(height: AppSpacing.nano),
                     AppStarRatingWidget(rating: rating as double),
                   ],
@@ -147,59 +128,22 @@ class BookDetailsPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Histórico de Leitura', style: AppTextStyles.heading3),
-                ],
+                children: [Text('Histórico de Leitura', style: AppTextStyles.heading3)],
               ),
             ),
             const SizedBox(height: AppSpacing.nano),
-            const ReadingHistoryItemWidget(
-              action: 'Leu 25 páginas',
-              date: 'Hoje',
-              duration: '15 min',
-            ),
-            const ReadingHistoryItemWidget(
-              action: 'Leu 30 páginas',
-              date: 'Ontem',
-              duration: '20 min',
-            ),
-            const ReadingHistoryItemWidget(
-              action: 'Começou a ler',
-              date: '25/07/2024',
-            ),
+            const ReadingHistoryItemWidget(action: 'Leu 25 páginas', date: 'Hoje', duration: '15 min'),
+            const ReadingHistoryItemWidget(action: 'Leu 30 páginas', date: 'Ontem', duration: '20 min'),
+            const ReadingHistoryItemWidget(action: 'Começou a ler', date: '25/07/2024'),
           ],
         ),
       ),
-      floatingActionButton: Container(
-        width: 64,
-        height: 64,
-        decoration: BoxDecoration(
-          color: AppColors.orange,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Material(
-          color: AppColors.transparent,
-          child: InkWell(
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Funcionalidade de registrar leitura em desenvolvimento',
-                  ),
-                ),
-              );
-            },
-            customBorder: const CircleBorder(),
-            child: const Icon(Icons.add, color: AppColors.white, size: 32),
-          ),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Funcionalidade de adicionar livro em desenvolvimento'))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.cardRadius)),
+        child: const HugeIcon(icon: AppIcons.addPage, color: AppColors.white, size: 28.0),
       ),
     );
   }
