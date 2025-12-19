@@ -63,4 +63,13 @@ sealed class AppIcons {
 
   /// Icon used for add page actions.
   static const addPage = HugeIcons.strokeRoundedBookBookmark02;
+
+  /// Icon used for success messages and confirmations.
+  static const check = HugeIcons.strokeRoundedCheckmarkCircle01;
+
+  /// Icon used for error messages and alerts.
+  static const alert = HugeIcons.strokeRoundedAlert01;
+
+  /// Icon used for informational messages.
+  static const info = HugeIcons.strokeRoundedInformationCircle;
 }
