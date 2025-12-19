@@ -153,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(height: AppSpacing.xl),
                         SizedBox(
                           width: double.infinity,
-                          child: AppButtonWidget(
+                          child: AppButtonWidget.primary(
                             text: 'Editar Perfil',
                             onPressed: () {
                               context.push(AppRoutes.statistics.path);

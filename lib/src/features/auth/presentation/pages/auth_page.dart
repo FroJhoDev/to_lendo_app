@@ -19,17 +19,8 @@ class AuthPage extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: AppSpacing.xl),
-              // Logo and App Name
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const HugeIcon(icon: AppIcons.appLogo, color: AppColors.orange, size: 40),
-                  const SizedBox(width: AppSpacing.sm),
-                  Text('Tô Lendo', style: AppTextStyles.heading1.copyWith(color: AppColors.textPrimary)),
-                ],
-              ),
+              Image.asset(AppImages.appLogo, height: 80, fit: BoxFit.contain),
               const SizedBox(height: AppSpacing.xl),
-              // Welcome Message
               const Text('Bem-vindo de volta!', style: AppTextStyles.largeTitle, textAlign: TextAlign.center),
               const SizedBox(height: AppSpacing.sm),
               const Text(
@@ -38,10 +29,8 @@ class AuthPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpacing.xl),
-              // Login Form
               const LoginFormWidget(),
               const SizedBox(height: AppSpacing.xl),
-              // Footer with cloud sync info
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -99,15 +99,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
-              AppButtonWidget(text: isLoading ? 'Entrando...' : 'Entrar', onPressed: isLoading ? null : _handleLogin),
+              AppButtonWidget.primary(text: 'Entrar', onPressed: isLoading ? null : _handleLogin, isLoading: isLoading),
               const SizedBox(height: AppSpacing.md),
               const AppSeparatorWidget(),
               const SizedBox(height: AppSpacing.md),
-              AppButtonWidget(
-                text: 'Criar uma conta',
-                onPressed: isLoading ? null : _handleCreateAccount,
-                variant: ButtonVariant.secondary,
-              ),
+              AppButtonWidget.secondary(text: 'Criar uma conta', onPressed: isLoading ? null : _handleCreateAccount),
             ],
           ),
         );

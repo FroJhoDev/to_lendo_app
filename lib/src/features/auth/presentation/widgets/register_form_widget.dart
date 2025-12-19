@@ -58,10 +58,12 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
           return;
         }
       },
-      builder: (context, state) {
-        final isLoading = state.status == AuthStateStatus.loading;
-
-        return Form(
+      builder: (context, state) => switch (state.status) {
+        AuthStateStatus.loading => const AppLoadingWidget(
+          title: 'Preparando tudo para você...',
+          subtitle: 'Por favor, aguarde...',
+        ),
+        _ => Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -125,13 +127,10 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                 },
               ),
               const SizedBox(height: AppSpacing.lg),
-              AppButtonWidget(
-                text: isLoading ? 'Criando conta...' : 'Criar conta',
-                onPressed: isLoading ? null : _handleRegister,
-              ),
+              AppButtonWidget.primary(text: 'Criar conta', onPressed: _handleRegister),
             ],
           ),
-        );
+        ),
       },
     );
   }

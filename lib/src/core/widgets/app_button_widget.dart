@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:packages/packages.dart';
 import 'package:to_lendo_app/src/core/core.dart';
 
 /// {@template app_button_widget}
 /// Custom button widget with style variations.
+/// Used for primary and secondary actions.
 /// {@endtemplate}
 class AppButtonWidget extends StatelessWidget {
   /// {@macro app_button_widget}
@@ -10,9 +12,20 @@ class AppButtonWidget extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.variant = ButtonVariant.primary,
+    required this.shadowColor,
+    required this.buttonStyle,
     this.isLoading = false,
   });
+
+  /// Primary button variant (orange).
+  AppButtonWidget.primary({super.key, required this.text, required this.onPressed, this.isLoading = false})
+    : shadowColor = AppColors.orange,
+      buttonStyle = AppButtons.primaryButtonStyle();
+
+  /// Secondary button variant (purple).
+  AppButtonWidget.secondary({super.key, required this.text, required this.onPressed, this.isLoading = false})
+    : shadowColor = AppColors.primaryPurpleMedium,
+      buttonStyle = AppButtons.secondaryButtonStyle();
 
   /// Button text.
   final String text;
@@ -20,103 +33,35 @@ class AppButtonWidget extends StatelessWidget {
   /// Callback called when button is pressed.
   final VoidCallback? onPressed;
 
-  /// Button variant.
-  final ButtonVariant variant;
-
   /// Whether the button is in loading state.
   final bool isLoading;
 
+  /// Shadow color for the button.
+  final Color shadowColor;
+
+  /// Button style.
+  final ButtonStyle buttonStyle;
+
   @override
   Widget build(BuildContext context) {
-    switch (variant) {
-      case ButtonVariant.primary:
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.orange.withValues(alpha: 0.4),
-                offset: const Offset(0, 4),
-                blurRadius: 8,
-              ),
-            ],
-          ),
-          child: ElevatedButton(
-            onPressed: isLoading ? null : onPressed,
-            style: AppButtons.primaryButtonStyle(),
-            child: isLoading
-                ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        AppColors.white,
-                      ),
-                    ),
-                  )
-                : Text(text, style: AppTextStyles.buttonText),
-          ),
-        );
-
-      case ButtonVariant.secondary:
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primaryPurpleMedium.withValues(alpha: 0.4),
-                offset: const Offset(0, 4),
-                blurRadius: 8,
-              ),
-            ],
-          ),
-          child: ElevatedButton(
-            onPressed: isLoading ? null : onPressed,
-            style: AppButtons.secondaryButtonStyle(),
-            child: isLoading
-                ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        AppColors.white,
-                      ),
-                    ),
-                  )
-                : Text(text, style: AppTextStyles.buttonText),
-          ),
-        );
-
-      case ButtonVariant.text:
-        return TextButton(
-          onPressed: isLoading ? null : onPressed,
-          style: AppButtons.textButtonStyle(),
-          child: Text(text),
-        );
-
-      case ButtonVariant.textPurple:
-        return TextButton(
-          onPressed: isLoading ? null : onPressed,
-          style: AppButtons.textButtonPurpleStyle(),
-          child: Text(text),
-        );
-    }
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+        boxShadow: [BoxShadow(color: shadowColor.withValues(alpha: 0.4), offset: const Offset(0, 4), blurRadius: 8)],
+      ),
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: buttonStyle.copyWith(
+          padding: isLoading ? WidgetStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.zero) : null,
+        ),
+        child: isLoading
+            ? SizedBox(
+                height: 50,
+                width: 50,
+                child: Lottie.asset(AppAnimations.bookLoaderAnimation, fit: BoxFit.contain),
+              )
+            : Text(text, style: AppTextStyles.buttonText),
+      ),
+    );
   }
-}
-
-/// Available button variants
-enum ButtonVariant {
-  /// Primary button
-  primary,
-
-  /// Secondary button
-  secondary,
-
-  /// Text button
-  text,
-
-  /// Purple text button
-  textPurple,
 }

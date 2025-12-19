@@ -106,7 +106,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       ),
                       SizedBox(
                         width: 120,
-                        child: AppButtonWidget(text: 'Próximo', onPressed: _nextPage, variant: ButtonVariant.secondary),
+                        child: AppButtonWidget.secondary(text: 'Próximo', onPressed: _nextPage),
                       ),
                     ],
                   ),

@@ -117,27 +117,29 @@ O projeto implementa **Clean Architecture** com três camadas principais:
 **Responsabilidade**: Contém a lógica de negócio pura, independente de frameworks e bibliotecas externas.
 
 **Componentes**:
+
 - **Repositories (Contratos)**: Interfaces abstratas que definem os contratos de acesso a dados
 - **Entities**: Entidades de negócio (quando necessário)
 - **Use Cases**: Casos de uso específicos (quando necessário)
 - **Exceptions**: Exceções de domínio
 
 **Exemplo - Repository Contract**:
+
 ```dart
 // domain/repositories/book_repository.dart
 abstract interface class BookRepository {
   Future<Either<BookException, BookModel>> addBook({
     required BookModel book,
   });
-  
+
   Future<Either<BookException, List<BookModel>>> getBooks({
     BookStatus? status,
   });
-  
+
   Future<Either<BookException, BookModel>> updateBook({
     required BookModel book,
   });
-  
+
   Future<Either<BookException, void>> deleteBook({
     required String bookId,
   });
@@ -145,6 +147,7 @@ abstract interface class BookRepository {
 ```
 
 **Características**:
+
 - Não depende de nenhuma camada externa
 - Define contratos através de interfaces abstratas
 - Usa `Either` do fpdart para tratamento de erros
@@ -155,12 +158,14 @@ abstract interface class BookRepository {
 **Responsabilidade**: Implementa os contratos definidos na camada de domínio, gerencia fontes de dados (API, banco local, etc).
 
 **Componentes**:
+
 - **Repository Implementations**: Implementam os contratos do domain
 - **Datasources**: Acesso direto a fontes de dados (API, banco local)
 - **Models**: Modelos de dados com serialização JSON
 - **Exception Implementations**: Implementações de exceções
 
 **Exemplo - Repository Implementation**:
+
 ```dart
 // data/repositories/book_repository_impl.dart
 class BookRepositoryImpl implements BookRepository {
@@ -169,11 +174,11 @@ class BookRepositoryImpl implements BookRepository {
     required this.remoteDatasource,
     required this.syncService,
   });
-  
+
   final BookLocalDatasource localDatasource;
   final BookRemoteDatasource remoteDatasource;
   final SyncService syncService;
-  
+
   @override
   Future<Either<BookException, BookModel>> addBook({
     required BookModel book,
@@ -181,23 +186,23 @@ class BookRepositoryImpl implements BookRepository {
     try {
       // Salva localmente primeiro (offline-first)
       final localBook = await localDatasource.insertBook(book);
-      
+
       // Marca para sincronização
       await syncService.markForSync(
         entityType: EntityType.book,
         entityId: localBook.id,
         operation: SyncOperation.create,
       );
-      
+
       // Tenta sincronizar se houver conexão
       await syncService.syncIfConnected();
-      
+
       return Right(localBook);
     } catch (error) {
       return Left(BookException(error.toString()));
     }
   }
-  
+
   @override
   Future<Either<BookException, List<BookModel>>> getBooks({
     BookStatus? status,
@@ -214,6 +219,7 @@ class BookRepositoryImpl implements BookRepository {
 ```
 
 **Características**:
+
 - Implementa interfaces do domain
 - Usa datasources para acesso a dados
 - Converte modelos de API para modelos de domínio
@@ -224,11 +230,13 @@ class BookRepositoryImpl implements BookRepository {
 **Responsabilidade**: Interface do usuário, widgets, páginas e gerenciamento de estado.
 
 **Componentes**:
+
 - **Cubits/Blocs**: Gerenciamento de estado usando flutter_bloc
 - **Pages**: Páginas da aplicação
 - **Widgets**: Widgets específicos da feature
 
 **Exemplo - Cubit**:
+
 ```dart
 // presentation/cubit/book_cubit.dart
 class BookCubit extends Cubit<BookState> {
@@ -238,15 +246,15 @@ class BookCubit extends Cubit<BookState> {
   })  : _bookRepository = bookRepository,
         _syncService = syncService,
         super(BookState());
-  
+
   final BookRepository _bookRepository;
   final SyncService _syncService;
-  
+
   Future<void> loadBooks({BookStatus? status}) async {
     emit(state.copyWith(status: BookStateStatus.loading));
-    
+
     final result = await _bookRepository.getBooks(status: status);
-    
+
     result.fold(
       (error) => emit(state.copyWith(
         status: BookStateStatus.error,
@@ -258,7 +266,7 @@ class BookCubit extends Cubit<BookState> {
       )),
     );
   }
-  
+
   Future<void> addBook({
     required String title,
     required String author,
@@ -268,7 +276,7 @@ class BookCubit extends Cubit<BookState> {
     String? coverImagePath,
   }) async {
     emit(state.copyWith(status: BookStateStatus.loading));
-    
+
     final book = BookModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       title: title,
@@ -282,9 +290,9 @@ class BookCubit extends Cubit<BookState> {
       updatedAt: DateTime.now(),
       isDirty: true,
     );
-    
+
     final result = await _bookRepository.addBook(book: book);
-    
+
     result.fold(
       (error) => emit(state.copyWith(
         status: BookStateStatus.error,
@@ -300,11 +308,12 @@ class BookCubit extends Cubit<BookState> {
 ```
 
 **Exemplo - Page**:
+
 ```dart
 // presentation/pages/home_page.dart
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-  
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -312,13 +321,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _bookCubit = injection<BookCubit>();
   BookStatus _currentFilter = BookStatus.all;
-  
+
   @override
   void initState() {
     super.initState();
     _bookCubit.loadBooks();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -356,6 +365,7 @@ class _HomePageState extends State<HomePage> {
 ```
 
 **Características**:
+
 - Usa Cubit para gerenciamento de estado
 - Estados definidos com Freezed para imutabilidade
 - BlocConsumer para escutar mudanças e reagir
@@ -424,7 +434,7 @@ Para classes que não devem ser instanciadas diretamente:
 /// App Theme Colors
 sealed class AppColors {
   AppColors._(); // Construtor privado
-  
+
   static const MaterialColor primaryColor = MaterialColor(...);
 }
 ```
@@ -455,7 +465,7 @@ Future<void> initInjection() async {
       InternetConnectionCheckerImpl.new
     )
     // ... outros serviços
-    
+
   // Supabase Client
   injection.registerLazySingleton<SupabaseClient>(
     () => SupabaseClient(
@@ -463,7 +473,7 @@ Future<void> initInjection() async {
       SupabaseConstants.supabaseAnonKey,
     ),
   );
-  
+
   // List of Feature Injections
   final features = [
     initDatasourcesInjection(),
@@ -475,13 +485,14 @@ Future<void> initInjection() async {
     initStatisticsInjection(),
     initProfileInjection(),
   ];
-  
+
   // Init All Features Injections
   await Future.wait(features);
 }
 ```
 
 **Tipos de Registro**:
+
 - `registerLazySingleton`: Instância única criada sob demanda
 - `registerFactory`: Nova instância a cada chamada (usado para Cubits)
 
@@ -500,14 +511,14 @@ Future<void> initBooksInjection() async {
     ..registerLazySingleton(() => BookRemoteDatasource(
       supabaseClient: injection<SupabaseClient>(),
     ))
-    
+
     // Repository
     ..registerLazySingleton<BookRepository>(() => BookRepositoryImpl(
       localDatasource: injection<BookLocalDatasource>(),
       remoteDatasource: injection<BookRemoteDatasource>(),
       syncService: injection<SyncService>(),
     ))
-    
+
     // Cubit (Factory para nova instância por uso)
     ..registerFactory(() => BookCubit(
       bookRepository: injection<BookRepository>(),
@@ -559,14 +570,14 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit({required AuthRepository authRepository})
       : _authRepository = authRepository,
         super(AuthState());
-  
+
   final AuthRepository _authRepository;
-  
+
   Future<void> signInUser({required String userName, required String password}) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
-    
+
     final result = await _authRepository.signInUser(...);
-    
+
     result.fold(
       (error) => emit(state.copyWith(
         status: AuthStateStatus.error,
@@ -615,8 +626,8 @@ class AppRoute {
   static GoRouter routes = GoRouter(
     initialLocation: RedirectService.isFirstOpen
         ? AppRoutes.onboarding.path
-        : (AuthService.currentUser.isLogged 
-            ? AppRoutes.home.path 
+        : (AuthService.currentUser.isLogged
+            ? AppRoutes.home.path
             : AppRoutes.auth.path),
     debugLogDiagnostics: true,
     routes: [
@@ -666,7 +677,7 @@ enum AppRoutes {
   bookDetails('/book/:id'),
   profile('/profile'),
   statistics('/statistics'),
-  
+
   const AppRoutes(this.path);
   final String path;
 }
@@ -702,7 +713,7 @@ O tema é centralizado em `lib/src/core/styles/`.
 ```dart
 sealed class AppTheme {
   AppTheme._();
-  
+
   static ThemeData theme = ThemeData(
     useMaterial3: true,
     fontFamily: 'Poppins',
@@ -727,9 +738,9 @@ sealed class AppTheme {
 ```dart
 sealed class AppColors {
   AppColors._();
-  
+
   static const int _customPrimary = 0xFF0373E3;
-  
+
   static const MaterialColor primaryColor = MaterialColor(
     _customPrimary,
     <int, Color>{
@@ -740,7 +751,7 @@ sealed class AppColors {
       // ...
     },
   );
-  
+
   static const Color secondary = Color(0xFF011224);
   static const Color background = Color(0xFFFFFFFF);
   static const Color success = Color(0xFF0adfc8);
@@ -822,12 +833,12 @@ class AppCardWidget extends StatelessWidget {
     this.action,
     this.spacing = AppSpacing.xxs,
   });
-  
+
   final String? title;
   final List<Widget> content;
   final Widget? action;
   final double spacing;
-  
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -845,6 +856,206 @@ class AppCardWidget extends StatelessWidget {
   }
 }
 ```
+
+### Padrão de Variantes com Construtores Nomeados
+
+**IMPORTANTE**: Quando um widget possui múltiplas variantes de estilo ou comportamento, **SEMPRE** use construtores nomeados ao invés de enums com switch case.
+
+#### ❌ Padrão Incorreto (NÃO usar)
+
+```dart
+enum ButtonVariant {
+  primary,
+  secondary,
+}
+
+class AppButtonWidget extends StatelessWidget {
+  const AppButtonWidget({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.variant = ButtonVariant.primary,
+  });
+
+  final String text;
+  final VoidCallback? onPressed;
+  final ButtonVariant variant;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (variant) {
+      case ButtonVariant.primary:
+        return ElevatedButton(...);
+      case ButtonVariant.secondary:
+        return ElevatedButton(...);
+    }
+  }
+}
+```
+
+#### ✅ Padrão Correto (SEMPRE usar)
+
+```dart
+class AppButtonWidget extends StatelessWidget {
+  /// {@macro app_button_widget}
+  const AppButtonWidget({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.shadowColor,
+    required this.buttonStyle,
+    this.isLoading = false,
+  });
+
+  /// Primary button variant (orange).
+  AppButtonWidget.primary({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.isLoading = false,
+  })  : shadowColor = AppColors.orange,
+        buttonStyle = AppButtons.primaryButtonStyle();
+
+  /// Secondary button variant (purple).
+  AppButtonWidget.secondary({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.isLoading = false,
+  })  : shadowColor = AppColors.primaryPurpleMedium,
+        buttonStyle = AppButtons.secondaryButtonStyle();
+
+  final String text;
+  final VoidCallback? onPressed;
+  final bool isLoading;
+  final Color shadowColor;
+  final ButtonStyle buttonStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+        boxShadow: [
+          BoxShadow(
+            color: shadowColor.withValues(alpha: 0.4),
+            offset: const Offset(0, 4),
+            blurRadius: 8,
+          ),
+        ],
+      ),
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: buttonStyle,
+        child: isLoading
+            ? const CircularProgressIndicator(...)
+            : Text(text, style: AppTextStyles.buttonText),
+      ),
+    );
+  }
+}
+```
+
+#### Regras do Padrão
+
+1. **Construtores nomeados antes dos campos**: Os construtores nomeados devem ser declarados logo após o construtor principal, antes da declaração dos campos.
+
+2. **Sem const em construtores nomeados com métodos**: Se o construtor nomeado chama métodos (como `AppButtons.primaryButtonStyle()`), não use `const` no construtor.
+
+3. **Inicialização via initializer list**: Use initializer list (`:`) para definir valores específicos de cada variante.
+
+4. **Uso do widget**:
+
+   ```dart
+   // ✅ Correto
+   AppButtonWidget.primary(
+     text: 'Entrar',
+     onPressed: _handleLogin,
+   )
+
+   AppButtonWidget.secondary(
+     text: 'Próximo',
+     onPressed: _nextPage,
+   )
+
+   // ❌ Incorreto
+   AppButtonWidget(
+     text: 'Entrar',
+     onPressed: _handleLogin,
+     variant: ButtonVariant.primary,
+   )
+   ```
+
+#### Exemplo Completo: AppIconButton
+
+```dart
+class AppIconButton extends StatefulWidget {
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final Color? iconColor;
+  final Color? backgroundColor;
+  final double iconSize;
+  final bool outlined;
+  final Color borderColor;
+  final EdgeInsets padding;
+  final String? semanticLabel;
+  final String? identifyLabel;
+
+  const AppIconButton({
+    super.key,
+    required this.icon,
+    this.onPressed,
+    this.iconColor,
+    this.backgroundColor,
+    this.iconSize = 20,
+    this.outlined = false,
+    this.borderColor = AppColors.transparent,
+    this.padding = const EdgeInsets.all(AppSpacing.xxxs),
+    this.semanticLabel,
+    this.identifyLabel,
+  });
+
+  const AppIconButton.large({
+    super.key,
+    required this.icon,
+    this.onPressed,
+    this.iconColor,
+    this.backgroundColor,
+    this.iconSize = 24,
+    this.outlined = false,
+    this.borderColor = AppColors.transparent,
+    this.padding = const EdgeInsets.all(AppSpacing.xxxs),
+    this.semanticLabel,
+    this.identifyLabel,
+  });
+
+  const AppIconButton.small({
+    super.key,
+    required this.icon,
+    this.onPressed,
+    this.iconColor,
+    this.backgroundColor,
+    this.iconSize = 14,
+    this.outlined = false,
+    this.borderColor = AppColors.high,
+    this.padding = const EdgeInsets.all(AppSpacing.nano),
+    this.semanticLabel,
+    this.identifyLabel,
+  });
+
+  @override
+  State<AppIconButton> createState() => _AppIconButtonState();
+}
+```
+
+#### Vantagens do Padrão
+
+- ✅ **Código mais limpo**: Elimina switch case e enums desnecessários
+- ✅ **API mais clara**: O construtor nomeado indica explicitamente a variante desejada
+- ✅ **Type safety**: O compilador garante que apenas variantes válidas sejam usadas
+- ✅ **Melhor autocomplete**: IDEs sugerem apenas as variantes disponíveis
+- ✅ **Manutenibilidade**: Adicionar nova variante é simples (apenas adicionar novo construtor)
+- ✅ **Consistência**: Padrão uniforme em todo o projeto
 
 ### Widgets Disponíveis
 
@@ -872,7 +1083,7 @@ Extensions são usadas para otimizar e simplificar o código.
 extension SizesExtension on BuildContext {
   double get screenWidth => MediaQuery.sizeOf(this).width;
   double get screenHeight => MediaQuery.sizeOf(this).height;
-  
+
   double percentWidth(double percent) => screenWidth * percent;
   double percentHeight(double percent) => screenHeight * percent;
 }
@@ -891,16 +1102,16 @@ extension StringExtension on String {
     final cpf = replaceAll(RegExp(r'\D'), '').padLeft(11, '0');
     return '${cpf.substring(0, 3)}.${cpf.substring(3, 6)}.${cpf.substring(6, 9)}-${cpf.substring(9)}';
   }
-  
+
   /// Adiciona asterisco indicando obrigatório
   String get mandatory => '$this *';
-  
+
   /// Remove caracteres não numéricos
   String get onlyNumbers => replaceAll(RegExp('[^0-9]'), '');
-  
+
   /// Nome único com timestamp
   String get uniqueName {
-    final newText = splitMapJoin('', 
+    final newText = splitMapJoin('',
       onNonMatch: (char) => UtilConstants.mapAccents[char] ?? char
     ).replaceAll(' ', '');
     return '${DateTime.now().microsecondsSinceEpoch}$newText';
@@ -932,14 +1143,14 @@ mixin ValidationsMixins {
     }
     return null;
   }
-  
+
   String? isValidCpf(String value, [String message = 'Por favor, insira um CPF válido']) {
     final cpf = value.replaceAll(RegExp('[^0-9]'), '');
     if (cpf.length != 11) return message;
     // Validação de CPF...
     return null; // Válido
   }
-  
+
   String? isValidEmail(String? value, [String? message]) {
     final patternEmail = RegExp(r'...');
     if (value == null || !patternEmail.hasMatch(value)) {
@@ -947,7 +1158,7 @@ mixin ValidationsMixins {
     }
     return null;
   }
-  
+
   String? combine(List<String? Function()> validators) {
     for (final func in validators) {
       final validation = func();
@@ -981,12 +1192,12 @@ Constantes são organizadas por categoria em `lib/src/core/constants/`:
 class SupabaseConstants {
   static const String supabaseUrl = 'YOUR_SUPABASE_URL';
   static const String supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
-  
+
   // Tables
   static const String booksTable = 'books';
   static const String readingSessionsTable = 'reading_sessions';
   static const String usersTable = 'users';
-  
+
   // Storage Buckets
   static const String bookCoversBucket = 'book-covers';
   static const String profilePicturesBucket = 'profile-pictures';
@@ -999,12 +1210,12 @@ class SupabaseConstants {
 class DatabaseConstants {
   static const String databaseName = 'to_lendo.db';
   static const int databaseVersion = 1;
-  
+
   // Tables
   static const String booksTable = 'books';
   static const String readingSessionsTable = 'reading_sessions';
   static const String syncQueueTable = 'sync_queue';
-  
+
   // Columns
   static const String idColumn = 'id';
   static const String updatedAtColumn = 'updated_at';
@@ -1031,9 +1242,9 @@ class AppImages {
     logoLight,
     // ...
   ];
-  
+
   static const String _basePath = 'assets/images';
-  
+
   static String get logo => '$_basePath/IMAGE_PATH.png';
   static String get logoNoTag => '$_basePath/IMAGE_PATH.png';
   // ...
@@ -1045,12 +1256,14 @@ class AppImages {
 Similar ao AppImages, mas para animações Lottie.
 
 **Vantagens**:
+
 - Facilita refatoração (mudança de path em um só lugar)
 - Evita erros de digitação
 - Autocomplete no IDE
 - Lista centralizada para precarregamento
 
 **Uso**:
+
 ```dart
 // Em my_app.dart - precarregamento
 for (final path in AppImages.imagesList) {
@@ -1120,6 +1333,7 @@ import 'package:cerurbjus_app/src/src.dart';
 ```
 
 **Vantagens**:
+
 - Imports mais limpos
 - Facilita refatoração (mover arquivo = atualizar um export)
 - Melhor organização
@@ -1168,6 +1382,7 @@ import 'package:packages/packages.dart';
 ```
 
 **Vantagens**:
+
 - Controle centralizado de versões
 - Imports mais limpos
 - Facilita migração de pacotes
@@ -1185,16 +1400,16 @@ Classe singleton que gerencia o banco SQLite:
 class AppDatabase {
   static final AppDatabase appDatabase = AppDatabase();
   Database? _database;
-  
+
   Future<Database> get database async {
     _database ??= await createDatabase();
     return _database!;
   }
-  
+
   Future<Database> createDatabase() async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, DatabaseConstants.databaseName);
-    
+
     return await openDatabase(
       path,
       version: DatabaseConstants.databaseVersion,
@@ -1217,7 +1432,7 @@ class BookLocalDatasource {
   BookLocalDatasource({required this.appDatabase});
   final AppDatabase appDatabase;
   final _tableName = DatabaseConstants.booksTable;
-  
+
   Future<BookModel> insertBook({required BookModel book}) async {
     try {
       final dataBase = await appDatabase.database;
@@ -1233,27 +1448,27 @@ class BookLocalDatasource {
       throw DatabaseException('Erro ao inserir livro: $error');
     }
   }
-  
+
   Future<List<BookModel>> getBooks({BookStatus? status}) async {
     try {
       final dataBase = await appDatabase.database;
       String query = 'SELECT * FROM $_tableName';
       List<dynamic> args = [];
-      
+
       if (status != null && status != BookStatus.all) {
         query += ' WHERE status = ?';
         args.add(status.name);
       }
-      
+
       query += ' ORDER BY updated_at DESC';
-      
+
       final books = await dataBase.rawQuery(query, args);
       return books.map((map) => BookModel.fromMap(map)).toList();
     } catch (error) {
       throw DatabaseException('Erro ao buscar livros: $error');
     }
   }
-  
+
   Future<BookModel> updateBook({required BookModel book}) async {
     try {
       final dataBase = await appDatabase.database;
@@ -1271,7 +1486,7 @@ class BookLocalDatasource {
       throw DatabaseException('Erro ao atualizar livro: $error');
     }
   }
-  
+
   Future<void> deleteBook({required String bookId}) async {
     try {
       final dataBase = await appDatabase.database;
@@ -1293,7 +1508,7 @@ class BookLocalDatasource {
 class BookRemoteDatasource {
   BookRemoteDatasource({required this.supabaseClient});
   final SupabaseClient supabaseClient;
-  
+
   Future<BookModel> createBook({required BookModel book}) async {
     try {
       final response = await supabaseClient
@@ -1301,23 +1516,23 @@ class BookRemoteDatasource {
           .insert(book.toMap())
           .select()
           .single();
-      
+
       return BookModel.fromMap(response);
     } catch (error) {
       throw SupabaseException('Erro ao criar livro no Supabase: $error');
     }
   }
-  
+
   Future<List<BookModel>> getBooks({String? userId}) async {
     try {
       var query = supabaseClient
           .from(SupabaseConstants.booksTable)
           .select();
-      
+
       if (userId != null) {
         query = query.eq('user_id', userId);
       }
-      
+
       final response = await query;
       return (response as List)
           .map((map) => BookModel.fromMap(map as Map<String, dynamic>))
@@ -1330,6 +1545,7 @@ class BookRemoteDatasource {
 ```
 
 **Características**:
+
 - Um datasource local e um remoto por entidade
 - Métodos CRUD específicos
 - Tratamento de erros com exceções customizadas
@@ -1345,6 +1561,7 @@ Services são interfaces e implementações para funcionalidades compartilhadas.
 ### Estrutura
 
 Cada service tem:
+
 - Interface abstrata (contrato)
 - Implementação concreta
 - Injeção de dependência
@@ -1367,7 +1584,7 @@ abstract interface class HttpClientService {
 class HttpClientServiceImpl implements HttpClientService {
   HttpClientServiceImpl({required this.client});
   final Client client;
-  
+
   @override
   Future<dynamic> request({...}) async {
     // Implementação usando http package
@@ -1386,7 +1603,7 @@ abstract interface class LocalStorage {
 
 class SecureStorageImpl implements LocalStorage {
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
-  
+
   @override
   Future<void> save(String key, String value) async {
     await _storage.write(key: key, value: value);
@@ -1403,7 +1620,7 @@ abstract interface class SupabaseService {
     required String email,
     required String password,
   });
-  
+
   Future<Either<SupabaseException, UserModel>> signInWithGoogle();
   Future<Either<SupabaseException, UserModel>> signInWithApple();
   Future<void> signOut();
@@ -1413,7 +1630,7 @@ abstract interface class SupabaseService {
 class SupabaseServiceImpl implements SupabaseService {
   SupabaseServiceImpl({required this.supabaseClient});
   final SupabaseClient supabaseClient;
-  
+
   @override
   Future<Either<SupabaseException, UserModel>> signInWithEmail({
     required String email,
@@ -1424,7 +1641,7 @@ class SupabaseServiceImpl implements SupabaseService {
         email: email,
         password: password,
       );
-      
+
       if (response.user != null) {
         final user = UserModel.fromSupabaseUser(response.user!);
         return Right(user);
@@ -1457,19 +1674,19 @@ class SyncServiceImpl implements SyncService {
     required this.bookRepository,
     required this.readingSessionRepository,
   });
-  
+
   final ConnectionCheckerService connectionChecker;
   final BookRepository bookRepository;
   final ReadingSessionRepository readingSessionRepository;
-  
+
   @override
   Future<void> syncIfConnected() async {
     if (!await connectionChecker.hasConnection()) {
       return; // Sem conexão, não sincroniza
     }
-    
+
     final pendingSyncs = await getPendingSyncs();
-    
+
     for (final syncItem in pendingSyncs) {
       try {
         await _syncItem(syncItem);
@@ -1480,7 +1697,7 @@ class SyncServiceImpl implements SyncService {
       }
     }
   }
-  
+
   Future<void> _syncItem(SyncItem item) async {
     switch (item.entityType) {
       case EntityType.book:
@@ -1491,7 +1708,7 @@ class SyncServiceImpl implements SyncService {
         break;
     }
   }
-  
+
   // ... implementação dos métodos de sincronização
 }
 ```
@@ -1511,6 +1728,7 @@ class SyncServiceImpl implements SyncService {
 O Tô Lendo trabalha com as seguintes entidades principais:
 
 ### Book (Livro)
+
 - **id**: Identificador único
 - **title**: Título do livro
 - **author**: Autor
@@ -1528,6 +1746,7 @@ O Tô Lendo trabalha com as seguintes entidades principais:
 - **userId**: ID do usuário dono
 
 ### ReadingSession (Sessão de Leitura)
+
 - **id**: Identificador único
 - **bookId**: ID do livro relacionado
 - **pagesRead**: Páginas lidas nesta sessão
@@ -1539,6 +1758,7 @@ O Tô Lendo trabalha com as seguintes entidades principais:
 - **userId**: ID do usuário
 
 ### User (Usuário)
+
 - **id**: Identificador único (Supabase Auth)
 - **email**: Email do usuário
 - **name**: Nome completo
@@ -1547,6 +1767,7 @@ O Tô Lendo trabalha com as seguintes entidades principais:
 - **lastSyncAt**: Data da última sincronização
 
 ### SyncQueue (Fila de Sincronização)
+
 - **id**: Identificador único
 - **entityType**: Tipo da entidade ('book', 'reading_session')
 - **entityId**: ID da entidade
@@ -1581,7 +1802,7 @@ class BookModel {
     this.lastSyncAt,
     this.userId,
   });
-  
+
   // Factory para estado vazio
   factory BookModel.empty() => BookModel(
     id: '',
@@ -1591,11 +1812,11 @@ class BookModel {
     pagesRead: 0,
     updatedAt: DateTime.now(),
   );
-  
+
   // Factory para JSON string
-  factory BookModel.fromJson(String source) => 
+  factory BookModel.fromJson(String source) =>
     BookModel.fromMap(json.decode(source) as Map<String, dynamic>);
-  
+
   // Factory para Map (banco local)
   factory BookModel.fromMap(Map<String, dynamic> map) {
     return BookModel(
@@ -1613,7 +1834,7 @@ class BookModel {
         orElse: () => BookStatus.reading,
       ),
       updatedAt: DateTime.parse(map['updated_at'] as String),
-      createdAt: map['created_at'] != null 
+      createdAt: map['created_at'] != null
           ? DateTime.parse(map['created_at'] as String)
           : null,
       isDirty: (map['is_dirty'] as int? ?? 0) == 1,
@@ -1623,7 +1844,7 @@ class BookModel {
       userId: map['user_id'] as String?,
     );
   }
-  
+
   // Propriedades
   final String id;
   final String title;
@@ -1640,13 +1861,13 @@ class BookModel {
   final bool isDirty;
   final DateTime? lastSyncAt;
   final String? userId;
-  
+
   // Computed properties
-  double get progressPercentage => 
+  double get progressPercentage =>
       totalPages > 0 ? (pagesRead / totalPages) * 100 : 0.0;
-  
+
   bool get isCompleted => pagesRead >= totalPages;
-  
+
   // Serialização para banco local
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -1667,7 +1888,7 @@ class BookModel {
       'user_id': userId,
     };
   }
-  
+
   // Serialização para Supabase
   Map<String, dynamic> toSupabaseMap() {
     return <String, dynamic>{
@@ -1685,9 +1906,9 @@ class BookModel {
       'user_id': userId,
     };
   }
-  
+
   String toJson() => json.encode(toMap());
-  
+
   // Copy with para imutabilidade
   BookModel copyWith({
     String? id,
@@ -1728,6 +1949,7 @@ class BookModel {
 ```
 
 **Características**:
+
 - Imutabilidade (propriedades `final`)
 - Factories para diferentes formatos de entrada
 - Métodos `toMap()` e `toJson()` para serialização
@@ -1797,6 +2019,7 @@ class BookModel {
 ### Criando uma Nova Feature
 
 1. **Criar estrutura de pastas**:
+
    ```
    features/new_feature/
    ├── new_feature.dart
@@ -1807,24 +2030,29 @@ class BookModel {
    ```
 
 2. **Definir contrato no Domain**:
+
    - Criar interface do Repository
    - Definir exceções
 
 3. **Implementar no Data**:
+
    - Implementar Repository
    - Criar Models se necessário
    - Criar Datasources se necessário
 
 4. **Criar Presentation**:
+
    - Criar Cubit e State
    - Criar Pages
    - Criar Widgets específicos
 
 5. **Configurar Injeção**:
+
    - Adicionar `initNewFeatureInjection()` em `injections.dart`
    - Registrar dependências
 
 6. **Adicionar Rotas**:
+
    - Adicionar em `AppRoute.routes`
    - Criar enum em `AppRoutes`
 
@@ -1852,11 +2080,11 @@ O Tô Lendo implementa uma arquitetura **offline-first**, garantindo que todas a
 // Exemplo de sincronização de um livro
 Future<void> syncBook(BookModel book) async {
   if (!book.isDirty) return; // Já sincronizado
-  
+
   try {
     // Verifica se já existe no Supabase
     final existingBook = await remoteDatasource.getBook(book.id);
-    
+
     if (existingBook != null) {
       // Resolve conflito: usa a versão mais recente
       if (book.updatedAt.isAfter(existingBook.updatedAt)) {
@@ -1869,7 +2097,7 @@ Future<void> syncBook(BookModel book) async {
       // Cria novo no Supabase
       await remoteDatasource.createBook(book);
     }
-    
+
     // Marca como sincronizado
     await localDatasource.updateBook(
       book.copyWith(
@@ -1905,6 +2133,7 @@ CREATE TABLE sync_queue (
 O **Tô Lendo** demonstra uma arquitetura bem estruturada e escalável, seguindo princípios de Clean Architecture, SOLID e boas práticas Flutter. A separação clara de responsabilidades, uso de injeção de dependências, gerenciamento de estado reativo e organização modular facilitam manutenção, testes e evolução do código.
 
 **Principais Destaques**:
+
 - ✅ Clean Architecture com três camadas bem definidas
 - ✅ Arquitetura offline-first com sincronização automática
 - ✅ Integração com Supabase (Auth, Database, Storage)

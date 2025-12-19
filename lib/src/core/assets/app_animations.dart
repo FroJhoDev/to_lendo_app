@@ -1,17 +1,14 @@
-// /// App Animatinons Class
-// class AppAnimations {
-//   /// Base Animations Path
-//   static const String _baseUrl = 'assets/animations';
+/// App Animatinons Class
+class AppAnimations {
+  /// Base Animations Path
+  static const String _baseUrl = 'assets/animations';
 
-//   /// List to All Animations
-//   static List<String> get animationsList => [
-//         arrowHomeAnimation,
-//         loadingAnimation,
-//       ];
+  /// List to All Animations
+  static List<String> get animationsList => [loadingAnimation, bookLoaderAnimation];
 
-//   /// Arrow Home Animation
-//   static String get arrowHomeAnimation => '$_baseUrl/arrow_home_animation.json';
+  /// Baby loading animation
+  static String get loadingAnimation => '$_baseUrl/loading.json';
 
-//   /// Baby loading animation
-//   static String get loadingAnimation => '$_baseUrl/baby_loading_animation.json';
-// }
+  /// Book Loader Animation
+  static String get bookLoaderAnimation => '$_baseUrl/book_loader.json';
+}
