@@ -21,6 +21,16 @@ dev_dependencies:
   freezed: ^2.5.7
   json_serializable: ^6.8.0
   freezed_annotation: ^2.4.4
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/icon.png"
+  adaptive_icon_foreground: "assets/images/icon.png"
+  adaptive_icon_background: "#6B3EFF"
+  adaptive_icon_foreground_inset: 18
 
 flutter:
   uses-material-design: true
